@@ -17,7 +17,7 @@ public class InputController : MonoBehaviour
 
     private bool isHolding = false;
 
-    public event EventHandler OnMove;
+    public event EventHandler OnMove, OnEnemyClicked;
 
     public Vector3 MousePosition { get => mousePosition; }
 
@@ -53,26 +53,43 @@ public class InputController : MonoBehaviour
         OnMove?.Invoke(this, EventArgs.Empty);
     }
 
-    private void Update()
+    private void CheckForMovementHold()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            mousePosition = hitInfo.point;
+
+            if (isHolding)
+            {
+                OnMove?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    private void CheckForEnemyClick()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if(Physics.Raycast(ray, out RaycastHit hitInfo))
         {
-            mousePosition = hitInfo.point;
-
-            if(!isHolding && Mouse.current.leftButton.wasPressedThisFrame)
+            if (hitInfo.transform.TryGetComponent(out EnemyController enemy))
             {
-                GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
+                mousePosition = enemy.transform.position;
 
-                mouseClickAnimation.transform.position = mousePosition;
+                OnEnemyClicked?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
 
-                OnMove?.Invoke(this, EventArgs.Empty);
-            }
-            else if (isHolding)
-            {
-                OnMove?.Invoke(this, EventArgs.Empty);
-            }
+    private void Update()
+    {
+        CheckForMovementHold();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckForEnemyClick();
         }
     }
 }
