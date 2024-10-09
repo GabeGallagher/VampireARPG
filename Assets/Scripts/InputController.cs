@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +13,13 @@ public class InputController : MonoBehaviour
 
     private InputActions inputActions;
 
+    private Vector3 mousePosition;
+
+    private bool isHolding = false;
+
     public event EventHandler OnMove;
 
-    private Vector3 mousePosition;
+    public Vector3 MousePosition { get => mousePosition; }
 
     private void Start()
     {
@@ -22,7 +27,21 @@ public class InputController : MonoBehaviour
 
         inputActions.PlayerMovement.Move.performed += Move_performed;
 
+        inputActions.PlayerMovement.Move.started += context => OnMouseDown();
+
+        inputActions.PlayerMovement.Move.canceled += context => OnMouseUp();
+
         inputActions.PlayerMovement.Enable();
+    }
+
+    private void OnMouseDown()
+    {
+        isHolding = true;
+    }
+
+    private void OnMouseUp()
+    {
+        isHolding = false;
     }
 
     private void Move_performed(InputAction.CallbackContext obj)
@@ -41,6 +60,19 @@ public class InputController : MonoBehaviour
         if(Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             mousePosition = hitInfo.point;
+
+            if(!isHolding && Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
+
+                mouseClickAnimation.transform.position = mousePosition;
+
+                OnMove?.Invoke(this, EventArgs.Empty);
+            }
+            else if (isHolding)
+            {
+                OnMove?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }
