@@ -2,17 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable, ILootable
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private LootSO lootSO;
+
+    private int health, maxHealth;
+
+    private void Start()
     {
-        
+        health = 100;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DamageReceived(int damageReceived, GameObject damageFrom)
     {
-        
+        health -= damageReceived;
+
+        if (health <= 0)
+        {
+            DropLoot();
+
+            Destroy(gameObject);
+        }
+    }
+
+    public void DropLoot()
+    {
+        GameObject loot = Instantiate(lootSO.Prefab);
+
+        loot.transform.position = transform.position;
     }
 }

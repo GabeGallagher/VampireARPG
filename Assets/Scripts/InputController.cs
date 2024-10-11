@@ -11,15 +11,23 @@ public class InputController : MonoBehaviour
 
     [SerializeField] private GameObject mouseTrackerVisual;
 
+    [SerializeField] private PlayerController player;
+
     private InputActions inputActions;
 
     private Vector3 mousePosition;
 
     private bool isHolding = false;
 
-    public event EventHandler OnMove, OnEnemyClicked;
+    private bool canMove = true;
+
+    public event EventHandler OnMove;
+
+    public event EventHandler<OnEnemyClickedEventArgs> OnEnemyClicked;
 
     public Vector3 MousePosition { get => mousePosition; }
+
+    public bool CanMove { get => canMove; }
 
     private void Start()
     {
@@ -50,7 +58,10 @@ public class InputController : MonoBehaviour
 
         mouseClickAnimation.transform.position = mousePosition;
 
-        OnMove?.Invoke(this, EventArgs.Empty);
+        if (canMove)
+        {
+            OnMove?.Invoke(this, EventArgs.Empty); 
+        }
     }
 
     private void CheckForMovementHold()
@@ -61,7 +72,7 @@ public class InputController : MonoBehaviour
         {
             mousePosition = hitInfo.point;
 
-            if (isHolding)
+            if (isHolding && canMove)
             {
                 OnMove?.Invoke(this, EventArgs.Empty);
             }
@@ -76,9 +87,43 @@ public class InputController : MonoBehaviour
         {
             if (hitInfo.transform.TryGetComponent(out EnemyController enemy))
             {
-                mousePosition = enemy.transform.position;
+                float playerDistanceToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 
-                OnEnemyClicked?.Invoke(this, EventArgs.Empty);
+                if (player.Attack.Range < playerDistanceToEnemy)
+                {
+                    mousePosition = enemy.transform.position;
+                }
+                else
+                {
+                    canMove = false;
+                }
+                OnEnemyClicked?.Invoke(this, new OnEnemyClickedEventArgs(enemy.transform));
+            }
+            else
+            {
+                canMove = true;
+            }
+        }
+    }
+
+    private void CheckForLootClick()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            if (hitInfo.transform.TryGetComponent(out LootController loot))
+            {
+                float playerDistanceToLoot = Vector3.Distance(player.transform.position, loot.transform.position);
+
+                if (player.PickupRange < playerDistanceToLoot)
+                {
+                    mousePosition = loot.transform.position;
+                }
+                else
+                {
+                    loot.PickUp(player);
+                }
             }
         }
     }
@@ -90,6 +135,18 @@ public class InputController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             CheckForEnemyClick();
+
+            CheckForLootClick();
         }
+    }
+}
+
+public class OnEnemyClickedEventArgs : EventArgs
+{
+    public Transform TargetTransform { get; }
+
+    public OnEnemyClickedEventArgs(Transform targetTransform)
+    {
+        TargetTransform = targetTransform;
     }
 }
