@@ -69,6 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233acf62b280c8349b7fe82c4f00e4c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lootSO: {fileID: 0}
+  damageTextPrefab: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
+    type: 3}
 --- !u!136 &5629251832535507594
 CapsuleCollider:
   m_ObjectHideFlags: 0

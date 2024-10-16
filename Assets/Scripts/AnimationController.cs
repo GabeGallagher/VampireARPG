@@ -19,6 +19,8 @@ public class AnimationController : MonoBehaviour
     {
         animator.SetBool("isRunning", player.IsRunning);
 
+        animator.SetBool("isAttacking", player.IsAttacking);
+
         if (!isPositionRooted())
         {
             transform.position = player.transform.position;

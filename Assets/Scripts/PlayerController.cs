@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private bool isRunning = false;
 
+    private bool isAttacking = false;
+
+    private bool canMove = true;
+
     public BasicAttackSO Attack { get => attack; }
 
     public List<GameObject> Inventory { get => inventory; }
@@ -29,6 +33,8 @@ public class PlayerController : MonoBehaviour, IDamage
     public int PickupRange { get => pickupRange; }
 
     public bool IsRunning { get => isRunning; }
+
+    public bool IsAttacking { get => isAttacking; }
 
     private void Awake()
     {
@@ -45,7 +51,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void Update()
     {
-        if (!inputController.CanMove)
+        if (!inputController.CanMove || !canMove)
         {
             navMeshAgent.isStopped = true;
 
@@ -68,15 +74,37 @@ public class PlayerController : MonoBehaviour, IDamage
 
             targetTransformList.Add(e.TargetTransform);
 
-            DealDamage(attack.Damage, targetTransformList);
+            StartCoroutine(AttackRoutine(1f, targetTransformList));
         }
+    }
+
+    private IEnumerator AttackRoutine(float attackTime, List<Transform> targetTransformList)
+    {
+        isAttacking = true;
+
+        canMove = false;
+
+        yield return new WaitForSeconds(attackTime);
+
+        DealDamage(attack.Damage, targetTransformList);
+
+        isAttacking = false;
+
+        canMove = true;
     }
 
     private void InputController_OnMove(object sender, System.EventArgs e)
     {
-        moveToPosition = inputController.MousePosition;
+        if (inputController.CanMove && canMove)
+        {
+            moveToPosition = inputController.MousePosition;
 
-        navMeshAgent.destination = moveToPosition;
+            navMeshAgent.destination = moveToPosition;
+        }
+        else
+        {
+            StopMoving();
+        }
     }
 
     public void DealDamage(int damage, List<Transform> targetList)
@@ -89,10 +117,14 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private bool SetIsRunning()
     {
-        return !(moveToPosition.x == transform.position.x && moveToPosition.z == transform.position.z);
+        if (!isAttacking)
+        {
+            return !(moveToPosition.x == transform.position.x && moveToPosition.z == transform.position.z); 
+        }
+        return false;
     }
 
-    // sets move to position to current transform position. Quick and dirty way to stop player run animatio after certain actions
+    // sets move to position to current transform position. Quick and dirty way to stop player run animation after certain actions
     public void StopMoving()
     {
         moveToPosition = transform.position;

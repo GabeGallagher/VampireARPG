@@ -27,7 +27,7 @@ public class InputController : MonoBehaviour
 
     public Vector3 MousePosition { get => mousePosition; }
 
-    public bool CanMove { get => canMove; }
+    public bool CanMove { get => canMove; set => canMove = value; }
 
     private void Start()
     {
