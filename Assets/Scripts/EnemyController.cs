@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamageable, ILootable
 {
-    [SerializeField] private LootSO lootSO;
+    [SerializeField] private ItemSO lootSO;
 
     [SerializeField] private GameObject damageTextPrefab;
 

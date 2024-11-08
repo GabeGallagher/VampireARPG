@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f59f0b1f55ace7439ce5c18c0a78036, type: 3}
-  m_Name: Loot SO
+  m_Name: Sword SO
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2606319464231853934, guid: 43bc08f30af4cb24f9999f25be7c31eb, type: 3}
-  lootName: Base Loot
+  prefab: {fileID: 1631607032641582, guid: 0c14f3ea30af4174ba288b3c2042f665, type: 3}
+  sprite: {fileID: 21300000, guid: 65aadfe537d27864fa763ad3ee95fea1, type: 3}
+  itemName: Sword

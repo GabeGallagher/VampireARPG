@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     [SerializeField] private int pickupRange = 4;
 
-    private List<GameObject> inventory;
+    [SerializeField] InventoryController inventoryController;
 
     private NavMeshAgent navMeshAgent;
 
@@ -28,25 +28,29 @@ public class PlayerController : MonoBehaviour, IDamage
 
     public BasicAttackSO Attack { get => attack; }
 
-    public List<GameObject> Inventory { get => inventory; }
-
     public int PickupRange { get => pickupRange; }
 
     public bool IsRunning { get => isRunning; }
 
     public bool IsAttacking { get => isAttacking; }
 
+    public InventoryController InventoryController { get => inventoryController; }
+
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-
-        inventory = new List<GameObject>();
     }
 
     private void Start()
     {
         inputController.OnMove += InputController_OnMove;
         inputController.OnEnemyClicked += InputController_OnEnemyClicked;
+        inputController.OnOpenInventory += InputController_OnOpenInventory;
+    }
+
+    private void InputController_OnOpenInventory(object sender, EventArgs e)
+    {
+        inventoryController.gameObject.SetActive(!inventoryController.gameObject.activeSelf);
     }
 
     private void Update()
@@ -128,5 +132,14 @@ public class PlayerController : MonoBehaviour, IDamage
     public void StopMoving()
     {
         moveToPosition = transform.position;
+    }
+
+    public void PickUp(Item item)
+    {
+        inventoryController.AddItem(item.ItemSO);
+
+        Debug.Log("Picked up " + item.ItemSO.ItemName);
+
+        Destroy(item.gameObject);
     }
 }

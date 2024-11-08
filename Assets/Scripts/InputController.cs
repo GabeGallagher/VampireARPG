@@ -25,6 +25,8 @@ public class InputController : MonoBehaviour
 
     public event EventHandler<OnEnemyClickedEventArgs> OnEnemyClicked;
 
+    public event EventHandler OnOpenInventory;
+
     public Vector3 MousePosition { get => mousePosition; }
 
     public bool CanMove { get => canMove; set => canMove = value; }
@@ -40,6 +42,15 @@ public class InputController : MonoBehaviour
         inputActions.PlayerMovement.Move.canceled += context => OnMouseUp();
 
         inputActions.PlayerMovement.Enable();
+
+        inputActions.UI.OpenInventory.performed += OpenInventory_performed;
+
+        inputActions.UI.Enable();
+    }
+
+    private void OpenInventory_performed(InputAction.CallbackContext obj)
+    {
+        OnOpenInventory?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnMouseDown()
@@ -106,23 +117,23 @@ public class InputController : MonoBehaviour
         }
     }
 
-    private void CheckForLootClick()
+    private void CheckForItemClick()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if(Physics.Raycast(ray, out RaycastHit hitInfo))
         {
-            if (hitInfo.transform.TryGetComponent(out LootController loot))
+            if (hitInfo.transform.TryGetComponent(out Item item))
             {
-                float playerDistanceToLoot = Vector3.Distance(player.transform.position, loot.transform.position);
+                float playerDistanceToLoot = Vector3.Distance(player.transform.position, item.transform.position);
 
                 if (player.PickupRange < playerDistanceToLoot)
                 {
-                    mousePosition = loot.transform.position;
+                    mousePosition = item.transform.position;
                 }
                 else
                 {
-                    loot.PickUp(player);
+                    player.PickUp(item);
                 }
             }
         }
@@ -136,7 +147,7 @@ public class InputController : MonoBehaviour
         {
             CheckForEnemyClick();
 
-            CheckForLootClick();
+            CheckForItemClick();
         }
     }
 }
