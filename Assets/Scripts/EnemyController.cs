@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour, IDamageable, ILootable
 {
-    [SerializeField] private ItemSO lootSO;
+    [SerializeField] private ItemSO itemSO;
 
     [SerializeField] private GameObject damageTextPrefab;
 
@@ -54,8 +54,8 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
 
     public void DropLoot()
     {
-        GameObject loot = Instantiate(lootSO.Prefab);
+        GameObject item = Instantiate(itemSO.Prefab);
 
-        loot.transform.position = transform.position;
+        item.transform.position = transform.position;
     }
 }

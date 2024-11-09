@@ -27,6 +27,8 @@ public class InputController : MonoBehaviour
 
     public event EventHandler OnOpenInventory;
 
+    public event EventHandler OnEquipPerformed;
+
     public Vector3 MousePosition { get => mousePosition; }
 
     public bool CanMove { get => canMove; set => canMove = value; }
@@ -45,7 +47,14 @@ public class InputController : MonoBehaviour
 
         inputActions.UI.OpenInventory.performed += OpenInventory_performed;
 
+        inputActions.UI.EquipFromInventory.performed += EquipFromInventory_performed;
+
         inputActions.UI.Enable();
+    }
+
+    private void EquipFromInventory_performed(InputAction.CallbackContext obj)
+    {
+        OnEquipPerformed?.Invoke(this, EventArgs.Empty);
     }
 
     private void OpenInventory_performed(InputAction.CallbackContext obj)

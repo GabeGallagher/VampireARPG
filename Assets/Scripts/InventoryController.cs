@@ -1,14 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
     [SerializeField] private GameObject itemStash;
 
+    [SerializeField] private InputController inputController;
+
     private List<ItemSO> itemsList = new List<ItemSO>();
-        
+
+    private GraphicRaycaster graphicRaycaster;
+
+    private EventSystem eventSystem;
+
+    private void Awake()
+    {
+        graphicRaycaster = GetComponentInParent<Canvas>().GetComponent<GraphicRaycaster>();
+    }
+    private void Start()
+    {
+        inputController.OnEquipPerformed += InputController_OnEquipPerformed;
+    }
+
+    private void InputController_OnEquipPerformed(object sender, System.EventArgs e)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void AddItem(ItemSO item)
     {
         itemsList.Add(item);
@@ -35,6 +57,27 @@ public class InventoryController : MonoBehaviour
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    private void EquipItem()
+    {
+        PointerEventData pointerEventData = new PointerEventData(eventSystem)
+        {
+            position = Mouse.current.position.ReadValue()
+        };
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        graphicRaycaster.Raycast(pointerEventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            ItemSlot itemSlot = result.gameObject.GetComponent<ItemSlot>();
+
+            if (itemSlot != null)
+            {
+                Debug.Log($"Clicked on {itemSlot.gameObject.name}"); break;
             }
         }
     }

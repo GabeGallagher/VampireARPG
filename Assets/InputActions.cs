@@ -63,6 +63,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipFromInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""0195fd15-13e1-4777-86d8-fc1a906abfc9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -74,6 +83,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b523f73-28ba-413d-bab9-b8af6f399454"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipFromInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -88,6 +108,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
+        m_UI_EquipFromInventory = m_UI.FindAction("EquipFromInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,11 +217,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_OpenInventory;
+    private readonly InputAction m_UI_EquipFromInventory;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
         public UIActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
+        public InputAction @EquipFromInventory => m_Wrapper.m_UI_EquipFromInventory;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -213,6 +236,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenInventory.started += instance.OnOpenInventory;
             @OpenInventory.performed += instance.OnOpenInventory;
             @OpenInventory.canceled += instance.OnOpenInventory;
+            @EquipFromInventory.started += instance.OnEquipFromInventory;
+            @EquipFromInventory.performed += instance.OnEquipFromInventory;
+            @EquipFromInventory.canceled += instance.OnEquipFromInventory;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -220,6 +246,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @OpenInventory.started -= instance.OnOpenInventory;
             @OpenInventory.performed -= instance.OnOpenInventory;
             @OpenInventory.canceled -= instance.OnOpenInventory;
+            @EquipFromInventory.started -= instance.OnEquipFromInventory;
+            @EquipFromInventory.performed -= instance.OnEquipFromInventory;
+            @EquipFromInventory.canceled -= instance.OnEquipFromInventory;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -244,5 +273,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnOpenInventory(InputAction.CallbackContext context);
+        void OnEquipFromInventory(InputAction.CallbackContext context);
     }
 }
