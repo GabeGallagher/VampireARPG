@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    [SerializeField] private GameObject itemStash;
+    [SerializeField] private Transform itemStash;
+
+    [SerializeField] private Transform equipped;
+
+    [SerializeField] private Transform rightHand, leftHand;
 
     [SerializeField] private InputController inputController;
 
@@ -20,6 +24,8 @@ public class InventoryController : MonoBehaviour
     private void Awake()
     {
         graphicRaycaster = GetComponentInParent<Canvas>().GetComponent<GraphicRaycaster>();
+
+        gameObject.SetActive(false);
     }
     private void Start()
     {
@@ -28,32 +34,39 @@ public class InventoryController : MonoBehaviour
 
     private void InputController_OnEquipPerformed(object sender, System.EventArgs e)
     {
-        throw new System.NotImplementedException();
+        HandleItemClick();
     }
 
-    public void AddItem(ItemSO item)
+    public void AddItem(ItemSO itemSO)
     {
-        itemsList.Add(item);
+        itemsList.Add(itemSO);
+
+        UpdateStash();
+    }
+
+    public void RemoveItem(ItemSO itemSO)
+    {
+        itemsList.Remove(itemSO);
 
         UpdateStash();
     }
 
     private void UpdateStash()
     {
-        foreach (ItemSO item in itemsList)
+        foreach (ItemSO itemSO in itemsList)
         {
-            for (int i = 0; i < itemStash.transform.childCount; i++)
+            for (int i = 0; i < itemStash.childCount; i++)
             {
-                for (int j= 0; j < itemStash.transform.GetChild(i).childCount; j++)
+                for (int j= 0; j < itemStash.GetChild(i).childCount; j++)
                 {
-                    Transform itemSlotTransform = itemStash.transform.GetChild(i).GetChild(j);
+                    Transform itemSlotTransform = itemStash.GetChild(i).GetChild(j);
 
                     ItemSlot itemSlot = itemSlotTransform.GetComponent<ItemSlot>();
 
-                    if (itemSlot.InventorySprite.GetComponent<Image>().sprite == null)
+                    if (itemSlot.ItemSO == null)
                     {
-                        itemSlot.SetSprite(item.Sprite);
-                        i = itemStash.transform.childCount;
+                        itemSlot.ItemSO = itemSO;
+                        i = itemStash.childCount;
                         break;
                     }
                 }
@@ -61,7 +74,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void EquipItem()
+    private void HandleItemClick()
     {
         PointerEventData pointerEventData = new PointerEventData(eventSystem)
         {
@@ -77,8 +90,37 @@ public class InventoryController : MonoBehaviour
 
             if (itemSlot != null)
             {
-                Debug.Log($"Clicked on {itemSlot.gameObject.name}"); break;
+                itemSlot.ClearSprite();
+
+                EquipItem(itemSlot.ItemSO); break;
             }
+        }
+    }
+
+    private void EquipItem(ItemSO itemSO)
+    {
+        Debug.Log($"Clicked on {itemSO.ItemName}");
+
+        switch (itemSO.Type)
+        {
+            // TODO: Figure out why sword is attached but doesn't follow hand properly
+            case ItemSO.ItemType.Weapon:
+                ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
+                GameObject weapon = Instantiate(itemSO.Prefab, rightHand);
+                mainHandSlot.ItemSO = itemSO;
+
+                // position coords are contained in the weapon folder in Prefabs/Items
+                Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);
+                Quaternion localRotation = Quaternion.Euler(15.177f, -106.1f, 101.719f);
+                weapon.transform.localPosition = localPosition;
+                weapon.transform.localRotation = localRotation;
+
+                RemoveItem(itemSO);
+                break;
+
+            default:
+                Debug.LogError($"{itemSO.Type} not found");
+                break;
         }
     }
 }

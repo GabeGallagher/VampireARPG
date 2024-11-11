@@ -20,6 +20,12 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private Vector3 moveToPosition;
 
+    private int experience = 0;
+
+    private int levelUpExperience = 10;
+
+    private int level = 1;
+
     private bool isRunning = false;
 
     private bool isAttacking = false;
@@ -44,8 +50,9 @@ public class PlayerController : MonoBehaviour, IDamage
     private void Start()
     {
         inputController.OnMove += InputController_OnMove;
-        inputController.OnEnemyClicked += InputController_OnEnemyClicked;
+        inputController.OnEnemyClicked += InputController_OnDamageableClicked;
         inputController.OnOpenInventory += InputController_OnOpenInventory;
+        inputController.OnHarvestableClicked += InputController_OnDamageableClicked;
     }
 
     private void InputController_OnOpenInventory(object sender, EventArgs e)
@@ -68,7 +75,7 @@ public class PlayerController : MonoBehaviour, IDamage
         isRunning = SetIsRunning();
     }
 
-    private void InputController_OnEnemyClicked(object sender, OnEnemyClickedEventArgs e)
+    private void InputController_OnDamageableClicked(object sender, OnDamageableClickedEventArgs e)
     {
         float distanceToEnemy = Vector3.Distance(transform.position, e.TargetTransform.position);
 
@@ -115,8 +122,29 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         foreach (Transform target in targetList)
         {
-            target.GetComponent<EnemyController>().DamageReceived(damage, gameObject);
+            if (target.GetComponent<IDamageable>() != null)
+            {
+                target.GetComponent<IDamageable>().DamageReceived(damage, gameObject);
+            }
         }
+    }
+
+    public void TargetKilled(GameObject target)
+    {
+        if (target.GetComponent<EnemyController>())
+        {
+            experience += 10;
+
+            if (experience > levelUpExperience)
+            {
+                LevelUp();
+            }
+        }
+    }
+
+    private void LevelUp()
+    {
+        Debug.Log("Leveled Up!");
     }
 
     private bool SetIsRunning()

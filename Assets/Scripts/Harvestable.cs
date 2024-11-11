@@ -1,24 +1,19 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour, IDamageable, ILootable
+public class Harvestable : MonoBehaviour, IDamageable
 {
-    [SerializeField] private ItemSO itemSO;
+    [SerializeField] GameObject damageTextPrefab;
 
-    [SerializeField] private GameObject damageTextPrefab;
+    [SerializeField] int health = 100;
 
     private Canvas canvas;
-
-    private int health, maxHealth;
 
     private void Start()
     {
         canvas = FindObjectOfType<Canvas>();
-
-        health = 100;
     }
 
     public void DamageReceived(int damageReceived, GameObject damageFrom)
@@ -29,12 +24,6 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
 
         if (health <= 0)
         {
-            DropLoot();
-
-            if (damageFrom.GetComponent<PlayerController>())
-            {
-                damageFrom.GetComponent<PlayerController>().TargetKilled(gameObject);
-            }
             Destroy(gameObject);
         }
     }
@@ -55,12 +44,5 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
         {
             textMesh.text = damageAmount.ToString();
         }
-    }
-
-    public void DropLoot()
-    {
-        GameObject item = Instantiate(itemSO.Prefab);
-
-        item.transform.position = transform.position;
     }
 }

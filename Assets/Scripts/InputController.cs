@@ -23,11 +23,13 @@ public class InputController : MonoBehaviour
 
     public event EventHandler OnMove;
 
-    public event EventHandler<OnEnemyClickedEventArgs> OnEnemyClicked;
+    public event EventHandler<OnDamageableClickedEventArgs> OnEnemyClicked;
 
     public event EventHandler OnOpenInventory;
 
     public event EventHandler OnEquipPerformed;
+
+    public event EventHandler<OnDamageableClickedEventArgs> OnHarvestableClicked;
 
     public Vector3 MousePosition { get => mousePosition; }
 
@@ -117,7 +119,7 @@ public class InputController : MonoBehaviour
                 {
                     canMove = false;
                 }
-                OnEnemyClicked?.Invoke(this, new OnEnemyClickedEventArgs(enemy.transform));
+                OnEnemyClicked?.Invoke(this, new OnDamageableClickedEventArgs(enemy.transform));
             }
             else
             {
@@ -134,9 +136,9 @@ public class InputController : MonoBehaviour
         {
             if (hitInfo.transform.TryGetComponent(out Item item))
             {
-                float playerDistanceToLoot = Vector3.Distance(player.transform.position, item.transform.position);
+                float playerDistanceToItem = Vector3.Distance(player.transform.position, item.transform.position);
 
-                if (player.PickupRange < playerDistanceToLoot)
+                if (player.PickupRange < playerDistanceToItem)
                 {
                     mousePosition = item.transform.position;
                 }
@@ -144,6 +146,28 @@ public class InputController : MonoBehaviour
                 {
                     player.PickUp(item);
                 }
+            }
+        }
+    }
+
+    private void CheckForHarvestableClick()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            if (hitInfo.transform.TryGetComponent(out Harvestable harvestable))
+            {
+                float playerDistanceToHarvestable = Vector3.Distance(player.transform.position, harvestable.transform.position);
+                if (player.PickupRange < playerDistanceToHarvestable)
+                {
+                    mousePosition = harvestable.transform.position;
+                }
+                else
+                {
+                    canMove = false;
+                }
+                OnHarvestableClicked?.Invoke(this, new OnDamageableClickedEventArgs(harvestable.transform));
             }
         }
     }
@@ -157,15 +181,17 @@ public class InputController : MonoBehaviour
             CheckForEnemyClick();
 
             CheckForItemClick();
+
+            CheckForHarvestableClick();
         }
     }
 }
 
-public class OnEnemyClickedEventArgs : EventArgs
+public class OnDamageableClickedEventArgs : EventArgs
 {
     public Transform TargetTransform { get; }
 
-    public OnEnemyClickedEventArgs(Transform targetTransform)
+    public OnDamageableClickedEventArgs(Transform targetTransform)
     {
         TargetTransform = targetTransform;
     }
