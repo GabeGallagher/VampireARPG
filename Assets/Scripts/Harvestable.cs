@@ -7,6 +7,8 @@ public class Harvestable : MonoBehaviour, IDamageable
 {
     [SerializeField] GameObject damageTextPrefab;
 
+    [SerializeField] HarvestableSO harvestableSO;
+
     [SerializeField] int health = 100;
 
     private Canvas canvas;
@@ -22,6 +24,10 @@ public class Harvestable : MonoBehaviour, IDamageable
 
         ShowDamageText(damageReceived);
 
+        if (damageFrom.GetComponent<PlayerController>() != null)
+        {
+            ReturnResource(damageReceived, damageFrom.GetComponent<PlayerController>());
+        }
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -44,5 +50,10 @@ public class Harvestable : MonoBehaviour, IDamageable
         {
             textMesh.text = damageAmount.ToString();
         }
+    }
+
+    private void ReturnResource(int resourceReturn, PlayerController player)
+    {
+        player.HarvestResource(resourceReturn, harvestableSO);
     }
 }

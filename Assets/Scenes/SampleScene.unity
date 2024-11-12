@@ -3212,6 +3212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTextPrefab: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
     type: 3}
+  harvestableSO: {fileID: 11400000, guid: 183d09e675b52e042b6057524c9c8606, type: 2}
   health: 100
 --- !u!1001 &814010021
 PrefabInstance:

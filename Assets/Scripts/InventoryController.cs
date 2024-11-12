@@ -101,10 +101,10 @@ public class InventoryController : MonoBehaviour
     {
         Debug.Log($"Clicked on {itemSO.ItemName}");
 
-        switch (itemSO.Type)
+        switch (itemSO.ItemType)
         {
             // TODO: Figure out why sword is attached but doesn't follow hand properly
-            case ItemSO.ItemType.Weapon:
+            case ItemSO.EItemType.Weapon:
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
                 GameObject weapon = Instantiate(itemSO.Prefab, rightHand);
                 mainHandSlot.ItemSO = itemSO;
@@ -119,7 +119,7 @@ public class InventoryController : MonoBehaviour
                 break;
 
             default:
-                Debug.LogError($"{itemSO.Type} not found");
+                Debug.LogError($"{itemSO.ItemType} not found");
                 break;
         }
     }

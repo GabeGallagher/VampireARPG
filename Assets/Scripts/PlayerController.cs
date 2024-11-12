@@ -144,6 +144,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void LevelUp()
     {
+        level += 1;
         Debug.Log("Leveled Up!");
     }
 
@@ -166,8 +167,11 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         inventoryController.AddItem(item.ItemSO);
 
-        Debug.Log("Picked up " + item.ItemSO.ItemName);
-
         Destroy(item.gameObject);
+    }
+
+    public void HarvestResource(int resourceCount, HarvestableSO harvestableSO)
+    {
+        inventoryController.AddItem(harvestableSO);
     }
 }

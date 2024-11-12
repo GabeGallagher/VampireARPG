@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class ItemSO : ScriptableObject
 {
-    public enum ItemType
+    public enum EItemType
     {
         Weapon,
         OffHand,
@@ -20,14 +20,14 @@ public class ItemSO : ScriptableObject
 
     [SerializeField] private GameObject prefab;
     [SerializeField] private Sprite sprite;
-    [SerializeField] private ItemType type;
+    [SerializeField] private EItemType itemType;
     [SerializeField] private string itemName;
 
     public GameObject Prefab { get => prefab; }
 
     public Sprite Sprite { get => sprite; }
 
-    public ItemType Type {  get => type; }
+    public EItemType ItemType {  get => itemType; }
 
     public string ItemName { get => itemName; }
 }
