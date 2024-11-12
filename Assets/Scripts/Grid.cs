@@ -57,16 +57,12 @@ public class Grid<TGridObject>
                 for (int z = 0; z < gridArray.GetLength(1); z++)
                 {
                     debugTextArray[x, z] = CreateWorldText(gridArray[x, z]?.ToString(), textParent.transform, fontSize, GetWorldPosition(x, z) + new Vector3(cellSize, 0, cellSize) * .5f, this.color, TextAnchor.MiddleCenter);
-                    //Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), Color.red, 100f);
-                    //Debug.DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), Color.red, 100f);
-                    DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), this.color);
-                    DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), this.color);
+                    DrawLine(GetWorldPosition(x, z), GetWorldPosition(x, z + 1), textParent.transform, this.color);
+                    DrawLine(GetWorldPosition(x, z), GetWorldPosition(x + 1, z), textParent.transform, this.color);
                 }
             }
-            //Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.red, 100f);
-            //Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.red, 100f);
-            DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), this.color);
-            DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), this.color);
+            DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), textParent.transform, this.color);
+            DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), textParent.transform, this.color);
 
             OnGridValueChanged += (object sender, OnGridValueChangedEventArgs eventArgs) =>
             {
@@ -125,12 +121,12 @@ public class Grid<TGridObject>
         return CreateWorldText(parent, text, localPosition, fontSize, (Color)color, textAnchor, textAlignment, sortingOrder);
     }
 
-    private void DrawLine(Vector3 start, Vector3 end, Color color)
+    private void DrawLine(Vector3 start, Vector3 end, Transform parent, Color color)
     {
         GameObject lineObj = new GameObject("GridLine");
         LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
 
-        float width = 0.5f;
+        float width = 0.25f;
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
         lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
@@ -139,6 +135,8 @@ public class Grid<TGridObject>
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, start);
         lineRenderer.SetPosition(1, end);
+
+        lineRenderer.transform.parent = parent;
     }
 
     private TextMesh CreateWorldText(Transform parent, string text, Vector3 localPosition, int fontSize, Color color, TextAnchor textAnchor, TextAlignment textAlignment, int sortingOrder)
@@ -157,14 +155,20 @@ public class Grid<TGridObject>
         return textMesh;
     }
 
-    private Vector3 GetWorldPosition(int x, int z)
+    public Vector3 GetWorldPosition(int x, int z)
     {
         return new Vector3(x, 0, z) * cellSize + originPosition;
     }
 
-    private void GetCoordinates(Vector3 worldPosition, out int x, out int z)
+    public void GetCoordinates(Vector3 worldPosition, out int x, out int z)
     {
         x = Mathf.FloorToInt(worldPosition.x / cellSize);
         z = Mathf.FloorToInt(worldPosition.z / cellSize);
+    }
+
+    public void GetRoundedFloatCoordinates(Vector3 worldPosition, out float x, out float z)
+    {
+        x = Mathf.Round(worldPosition.x / cellSize);
+        z = Mathf.Round(worldPosition.z / cellSize);
     }
 }

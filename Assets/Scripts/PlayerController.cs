@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private bool canMove = true;
 
+    private bool inBuildMode = false;
+
     public BasicAttackSO Attack { get => attack; }
 
     public int PickupRange { get => pickupRange; }
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour, IDamage
     public bool IsRunning { get => isRunning; }
 
     public bool IsAttacking { get => isAttacking; }
+
+    public bool InBuildMode { get => inBuildMode; }
 
     public InventoryController InventoryController { get => inventoryController; }
 
@@ -53,6 +57,21 @@ public class PlayerController : MonoBehaviour, IDamage
         inputController.OnEnemyClicked += InputController_OnDamageableClicked;
         inputController.OnOpenInventory += InputController_OnOpenInventory;
         inputController.OnHarvestableClicked += InputController_OnDamageableClicked;
+        inputController.OnToggleBuildMode += InputController_OnToggleBuildMode;
+    }
+
+    private void InputController_OnToggleBuildMode(object sender, EventArgs e)
+    {
+        inBuildMode = !inBuildMode;
+
+        if (inBuildMode)
+        {
+            canMove = false;
+        }
+        else
+        {
+            canMove = true;
+        }
     }
 
     private void InputController_OnOpenInventory(object sender, EventArgs e)

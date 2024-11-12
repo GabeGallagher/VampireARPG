@@ -31,6 +31,8 @@ public class InputController : MonoBehaviour
 
     public event EventHandler<OnDamageableClickedEventArgs> OnHarvestableClicked;
 
+    public event EventHandler OnToggleBuildMode;
+
     public Vector3 MousePosition { get => mousePosition; }
 
     public bool CanMove { get => canMove; set => canMove = value; }
@@ -52,6 +54,15 @@ public class InputController : MonoBehaviour
         inputActions.UI.EquipFromInventory.performed += EquipFromInventory_performed;
 
         inputActions.UI.Enable();
+
+        inputActions.PlayerActions.ToggleBuildMode.performed += ToggleBuildMode_performed;
+
+        inputActions.PlayerActions.Enable();
+    }
+
+    private void ToggleBuildMode_performed(InputAction.CallbackContext obj)
+    {
+        OnToggleBuildMode?.Invoke(this, EventArgs.Empty);
     }
 
     private void EquipFromInventory_performed(InputAction.CallbackContext obj)
