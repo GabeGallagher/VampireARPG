@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
     [SerializeField] private SkillTabController skillTabController;
 
+    [SerializeField] private BuildMenuUI buildMenuUI;
+
     private NavMeshAgent navMeshAgent;
 
     private Vector3 moveToPosition;

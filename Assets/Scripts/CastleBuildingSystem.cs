@@ -14,6 +14,8 @@ public class CastleBuildingSystem : MonoBehaviour
 
     private GameObject previewObject;
 
+    private Renderer previewRenderer;
+
     private float cellSize;
 
     private bool inBuildMode = false;
@@ -34,17 +36,39 @@ public class CastleBuildingSystem : MonoBehaviour
     private void InputController_OnToggleBuildMode(object sender, System.EventArgs e)
     {
         inBuildMode = !inBuildMode;
+
+        if (!inBuildMode && previewObject != null)
+        {
+            Destroy(previewObject);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && inBuildMode)
+        if (inBuildMode)
         {
             GetFloorPosition(GetMouseWorldPosition(), out float x, out float z);
 
             GridObject gridObject = grid.GetValue(GetMouseWorldPosition());
 
+            if (previewObject == null)
+            {
+                previewObject = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
+            }
+            previewRenderer = previewObject.GetComponentInChildren<Renderer>();
+
+            previewObject.transform.position = new Vector3(x, 0, z);
+
             if (gridObject.CanBuild())
+            {
+                previewRenderer.material = canPlaceMaterial;
+            }
+            else
+            {
+                previewRenderer.material = cantPlaceMaterial;
+            }
+
+            if (gridObject.CanBuild() && Input.GetMouseButtonDown(0))
             {
                 GameObject building = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
 
@@ -52,6 +76,7 @@ public class CastleBuildingSystem : MonoBehaviour
             }
         }
     }
+
     private void GetFloorPosition(Vector3 worldPosition, out float x, out float z)
     {
         GetVisualOffset(wall.transform, out float offsetX, out float offsetZ);
