@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -7,7 +8,11 @@ public class CastleBuildingSystem : MonoBehaviour
 
     [SerializeField] private GameObject floor, wall;
 
+    [SerializeField] private Material canPlaceMaterial, cantPlaceMaterial;
+
     private Grid<GridObject> grid;
+
+    private GameObject previewObject;
 
     private float cellSize;
 
@@ -37,7 +42,14 @@ public class CastleBuildingSystem : MonoBehaviour
         {
             GetFloorPosition(GetMouseWorldPosition(), out float x, out float z);
 
-            Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
+            GridObject gridObject = grid.GetValue(GetMouseWorldPosition());
+
+            if (gridObject.CanBuild())
+            {
+                GameObject building = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
+
+                gridObject.PlacedObject = building.transform;
+            }
         }
     }
     private void GetFloorPosition(Vector3 worldPosition, out float x, out float z)
@@ -49,8 +61,8 @@ public class CastleBuildingSystem : MonoBehaviour
 
         grid.GetRoundedFloatCoordinates(snapWorldPosition, out x, out z);
 
-        x = x * cellSize + cellSnap + offsetX;
-        z = z * cellSize + cellSnap + offsetZ;
+        x = x * cellSize;
+        z = z * cellSize;
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -88,6 +100,7 @@ public class CastleBuildingSystem : MonoBehaviour
         private Grid<GridObject> grid;
         private int x;
         private int z;
+        private Transform placedObject;
 
         public GridObject(Grid<GridObject> grid, int x, int z)
         {
@@ -96,9 +109,32 @@ public class CastleBuildingSystem : MonoBehaviour
             this.z = z;
         }
 
+        public Transform PlacedObject
+        {
+            get => placedObject; 
+            set 
+            {
+                placedObject = value;
+
+                grid.TriggerGridObjectChange(x, z);
+            }
+        }
+
+        public void ClearObject()
+        {
+            placedObject = null;
+
+            grid.TriggerGridObjectChange(x, z);
+        }
+
+        public Boolean CanBuild()
+        {
+            return placedObject == null;
+        }
+
         public override string ToString()
         {
-            return $"{x}, {z}";
+            return $"{x}, {z} {placedObject}";
         }
     }
 }

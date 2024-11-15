@@ -72,6 +72,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenSkillTab"",
+                    ""type"": ""Button"",
+                    ""id"": ""09b83697-1f23-43fd-a658-333bce415417"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -94,6 +103,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""EquipFromInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6978fdc-75f4-447a-9d06-3b35bc31690a"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenSkillTab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -137,6 +157,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_OpenInventory = m_UI.FindAction("OpenInventory", throwIfNotFound: true);
         m_UI_EquipFromInventory = m_UI.FindAction("EquipFromInventory", throwIfNotFound: true);
+        m_UI_OpenSkillTab = m_UI.FindAction("OpenSkillTab", throwIfNotFound: true);
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_ToggleBuildMode = m_PlayerActions.FindAction("ToggleBuildMode", throwIfNotFound: true);
@@ -249,12 +270,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_OpenInventory;
     private readonly InputAction m_UI_EquipFromInventory;
+    private readonly InputAction m_UI_OpenSkillTab;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
         public UIActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @OpenInventory => m_Wrapper.m_UI_OpenInventory;
         public InputAction @EquipFromInventory => m_Wrapper.m_UI_EquipFromInventory;
+        public InputAction @OpenSkillTab => m_Wrapper.m_UI_OpenSkillTab;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -270,6 +293,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @EquipFromInventory.started += instance.OnEquipFromInventory;
             @EquipFromInventory.performed += instance.OnEquipFromInventory;
             @EquipFromInventory.canceled += instance.OnEquipFromInventory;
+            @OpenSkillTab.started += instance.OnOpenSkillTab;
+            @OpenSkillTab.performed += instance.OnOpenSkillTab;
+            @OpenSkillTab.canceled += instance.OnOpenSkillTab;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -280,6 +306,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @EquipFromInventory.started -= instance.OnEquipFromInventory;
             @EquipFromInventory.performed -= instance.OnEquipFromInventory;
             @EquipFromInventory.canceled -= instance.OnEquipFromInventory;
+            @OpenSkillTab.started -= instance.OnOpenSkillTab;
+            @OpenSkillTab.performed -= instance.OnOpenSkillTab;
+            @OpenSkillTab.canceled -= instance.OnOpenSkillTab;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -351,6 +380,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     {
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnEquipFromInventory(InputAction.CallbackContext context);
+        void OnOpenSkillTab(InputAction.CallbackContext context);
     }
     public interface IPlayerActionsActions
     {

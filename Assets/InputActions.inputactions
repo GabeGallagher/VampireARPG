@@ -50,6 +50,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenSkillTab",
+                    "type": "Button",
+                    "id": "09b83697-1f23-43fd-a658-333bce415417",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -72,6 +81,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EquipFromInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6978fdc-75f4-447a-9d06-3b35bc31690a",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenSkillTab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

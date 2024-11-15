@@ -16,11 +16,17 @@ public class PlayerController : MonoBehaviour, IDamage
 
     [SerializeField] InventoryController inventoryController;
 
+    [SerializeField] private SkillTabController skillTabController;
+
     private NavMeshAgent navMeshAgent;
 
     private Vector3 moveToPosition;
 
-    private int experience = 0;
+    private int maxHealth = 100;
+
+    [SerializeField] private int currentHealth = 50;
+
+    [SerializeField] private int experience = 0;
 
     private int levelUpExperience = 10;
 
@@ -35,6 +41,14 @@ public class PlayerController : MonoBehaviour, IDamage
     private bool inBuildMode = false;
 
     public BasicAttackSO Attack { get => attack; }
+
+    public int MaxHealth { get => maxHealth; }
+
+    public int CurrentHealth { get => currentHealth; }
+
+    public int LevelUpExperience {  get => levelUpExperience; }
+
+    public int Experience { get => experience; }
 
     public int PickupRange { get => pickupRange; }
 
@@ -58,6 +72,12 @@ public class PlayerController : MonoBehaviour, IDamage
         inputController.OnOpenInventory += InputController_OnOpenInventory;
         inputController.OnHarvestableClicked += InputController_OnDamageableClicked;
         inputController.OnToggleBuildMode += InputController_OnToggleBuildMode;
+        inputController.OnOpenSkillTab += InputController_OnOpenSkillTab;
+    }
+
+    private void InputController_OnOpenSkillTab(object sender, EventArgs e)
+    {
+        skillTabController.gameObject.SetActive(!skillTabController.gameObject.activeSelf);
     }
 
     private void InputController_OnToggleBuildMode(object sender, EventArgs e)

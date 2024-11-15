@@ -98,9 +98,12 @@ public class Grid<TGridObject>
 
     public TGridObject GetValue(int x, int z)
     {
-        if (x >= 0 && z >= 0 && x < width && z < height)
+        int xOffset = Mathf.FloorToInt(x + (height / 2));
+        int zOffset = Mathf.FloorToInt(z + (width / 2));
+
+        if (xOffset >= 0 && zOffset >= 0 && xOffset < width && zOffset < height)
         {
-            return gridArray[x, z];
+            return gridArray[xOffset, zOffset];
         }
         else
         {
@@ -113,6 +116,11 @@ public class Grid<TGridObject>
         int x, z;
         GetCoordinates(worldPosition, out x, out z);
         return GetValue(x, z);
+    }
+
+    public void TriggerGridObjectChange(int x, int z)
+    {
+        OnGridValueChanged?.Invoke(this, new OnGridValueChangedEventArgs { x = x, z = z });
     }
 
     private TextMesh CreateWorldText(string text, Transform parent, int fontSize, Vector3 localPosition = default(Vector3), Color? color = null, TextAnchor textAnchor = TextAnchor.UpperLeft, TextAlignment textAlignment = TextAlignment.Left, int sortingOrder = sortingOrderDefault)
