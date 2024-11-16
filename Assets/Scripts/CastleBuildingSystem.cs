@@ -1,18 +1,19 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using static CastleBuildingSystem;
 
 public class CastleBuildingSystem : MonoBehaviour
 {
     [SerializeField] private InputController inputController;
 
-    [SerializeField] private GameObject floor, wall;
+    [SerializeField] private GameObject floor;
 
     [SerializeField] private Material canPlaceMaterial, cantPlaceMaterial;
 
     private Grid<GridObject> grid;
 
-    private GameObject previewObject;
+    private GameObject previewObject, placeablePrefab;
 
     private Renderer previewRenderer;
 
@@ -25,13 +26,15 @@ public class CastleBuildingSystem : MonoBehaviour
         int gridWidth = 10;
         int gridHeight = 10;
         cellSize = floor.transform.localScale.x;
-        grid = new Grid<GridObject>(gridWidth, gridHeight, 10, cellSize, FloorGridPosition(), (Grid<GridObject> g, int x, int z) => new GridObject(g, x, z), true, Color.black);
+        grid = new Grid<GridObject>(gridWidth, gridHeight, 10, cellSize, FloorGridPosition(), (Grid<GridObject> g, int x, int z) => new GridObject(g, x, z), false, Color.black);
     }
 
     private void Start()
     {
         inputController.OnToggleBuildMode += InputController_OnToggleBuildMode;
     }
+
+    public GameObject PlaceablePrefab { get => placeablePrefab; set => SetPlaceablePrefab(value); }
 
     private void InputController_OnToggleBuildMode(object sender, System.EventArgs e)
     {
@@ -45,7 +48,7 @@ public class CastleBuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        if (inBuildMode)
+        if (inBuildMode && placeablePrefab != null)
         {
             GetFloorPosition(GetMouseWorldPosition(), out float x, out float z);
 
@@ -53,7 +56,7 @@ public class CastleBuildingSystem : MonoBehaviour
 
             if (previewObject == null)
             {
-                previewObject = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
+                previewObject = Instantiate(placeablePrefab, new Vector3(x, 0, z), Quaternion.identity);
             }
             previewRenderer = previewObject.GetComponentInChildren<Renderer>();
 
@@ -68,18 +71,50 @@ public class CastleBuildingSystem : MonoBehaviour
                 previewRenderer.material = cantPlaceMaterial;
             }
 
-            if (gridObject.CanBuild() && Input.GetMouseButtonDown(0))
+            if (CanBuild(placeablePrefab.GetComponent<Buildable>().So, gridObject) && Input.GetMouseButtonDown(0) && !inputController.IsPointerOverUIElement())
             {
-                GameObject building = Instantiate(wall, new Vector3(x, 0, z), Quaternion.identity);
+                GameObject building = Instantiate(placeablePrefab, new Vector3(x, 0, z), Quaternion.identity);
 
                 gridObject.PlacedObject = building.transform;
             }
         }
     }
 
+    private bool CanBuild(BuildableSO buildableSO, GridObject gridObject)
+    {
+        switch (buildableSO.BuildableType)
+        {
+            case BuildableSO.EBuildableType.Floor:
+                return gridObject.CanBuild();
+
+            case BuildableSO.EBuildableType.Wall:
+                return gridObject.CanBuild();
+
+            case BuildableSO.EBuildableType.Desk:
+                if (gridObject.PlacedObject != null && gridObject.PlacedObject.GetComponent<Buildable>().So.BuildableType == BuildableSO.EBuildableType.Floor)
+                {
+                    return true;
+                }
+                return false;
+
+            default:
+                Debug.Log($"{buildableSO.BuildableType} unhandled in CanBuild(BuildableSO {buildableSO}, GridObject {gridObject}");
+                return false;
+        }
+    }
+
+    private void SetPlaceablePrefab(GameObject newPrefab)
+    {
+        if (placeablePrefab != null)
+        {
+            Destroy(previewObject);
+        }
+        placeablePrefab = newPrefab;
+    }
+
     private void GetFloorPosition(Vector3 worldPosition, out float x, out float z)
     {
-        GetVisualOffset(wall.transform, out float offsetX, out float offsetZ);
+        GetVisualOffset(placeablePrefab.transform, out float offsetX, out float offsetZ);
 
         float cellSnap = cellSize / 2;
         Vector3 snapWorldPosition = worldPosition + new Vector3(-cellSnap, 0f, -cellSnap);

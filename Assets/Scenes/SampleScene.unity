@@ -287,7 +287,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputController: {fileID: 1179498302}
   floor: {fileID: 2048489212}
-  wall: {fileID: 7268017000287482810, guid: 0f253bec445dece44903eec3e20072e1, type: 3}
   canPlaceMaterial: {fileID: 2100000, guid: 67e6e2c67d0e2c043838f8a9fd7c17c2, type: 2}
   cantPlaceMaterial: {fileID: 2100000, guid: 7f6191ab7aa588c488e64ba7bad64170, type: 2}
 --- !u!4 &43961688 stripped
