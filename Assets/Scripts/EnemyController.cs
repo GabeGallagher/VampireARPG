@@ -21,6 +21,8 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
 
     private Coroutine roamingCoroutine;
 
+    private Transform player;
+
     private float idleTime = 5f; // seconds enemies should stay idle before roaming
 
     private float countingTime = 0f;
@@ -94,6 +96,21 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
 
     private void Update()
     {
+        if (player != null)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer <= enemySO.AggroRange)
+            {
+                IsAttacking = true;
+                targetPos = player.position;
+                agent.SetDestination(targetPos);
+            }
+        }
+        else
+        {
+            player = GameObject.FindWithTag("Player")?.transform;
+        }
+
         if (isRoaming)
         {
             agent.SetDestination(targetPos);
@@ -114,6 +131,27 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
                 roamingCoroutine = StartCoroutine(GetRoamingTargetCoroutine(roamingRange, position => targetPos = position));
             }
         }
+        else if (isAttacking)
+        {
+            countingTime = -idleTime; // When aggro is broken, enemy idle should double before it starts roam
+
+            if (Vector3.Distance(transform.position, player.position) < enemySO.AttackRange)
+            {
+                agent.isStopped = true;
+                Debug.Log($"{transform.name} attacking player");
+            }
+            else
+            {
+                agent.isStopped = false;
+                Debug.Log($"{transform.name} moving to attack player");
+            }
+
+            if (Vector3.Distance(transform.position, player.position) > enemySO.AggroRange)
+            {
+                startingPos = transform.position;
+                IsIdle = true;
+            }
+        }
     }
 
     private IEnumerator GetRoamingTargetCoroutine(float range, System.Action<Vector3> onTargetFound)
@@ -126,7 +164,6 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
 
             if (NavMesh.SamplePosition(roamingTarget, out NavMeshHit target, 2f, NavMesh.AllAreas))
             {
-                Debug.Log($"Moving to {target.position}");
                 onTargetFound?.Invoke(target.position);
                 IsRoaming = true;
                 yield break;

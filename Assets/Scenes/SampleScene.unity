@@ -8946,7 +8946,7 @@ GameObject:
   - component: {fileID: 1623352612}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8985,7 +8985,7 @@ MonoBehaviour:
   inventoryController: {fileID: 55192927}
   skillTabController: {fileID: 147821074}
   buildMenuUI: {fileID: 391562564}
-  currentHealth: 0
+  currentHealth: 100
   experience: 0
 --- !u!195 &1623352612
 NavMeshAgent:
