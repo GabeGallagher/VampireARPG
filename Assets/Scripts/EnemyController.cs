@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class EnemyController : MonoBehaviour, IDamageable, ILootable
+public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 {
     [SerializeField] private ItemSO itemSO;
     [SerializeField] private EnemySO enemySO;
@@ -139,6 +139,9 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
             {
                 agent.isStopped = true;
                 Debug.Log($"{transform.name} attacking player");
+                List<Transform> targets = new List<Transform>();
+                targets.Add(player);
+                DealDamage(enemySO.Damage, targets);
             }
             else
             {
@@ -213,5 +216,16 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
         GameObject item = Instantiate(itemSO.Prefab);
 
         item.transform.position = transform.position;
+    }
+
+    public void DealDamage(int damage, List<Transform> targetList)
+    {
+        foreach (Transform target in targetList)
+        {
+            if (target.GetComponent<IDamageable>() != null)
+            {
+                target.GetComponent<IDamageable>().DamageReceived(damage, gameObject);
+            }
+        }
     }
 }
