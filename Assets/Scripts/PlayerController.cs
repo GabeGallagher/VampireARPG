@@ -1,24 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 
-public class PlayerController : MonoBehaviour, IDamage
+public class PlayerController : MonoBehaviour, IDamage, IDamageable
 {
     [SerializeField] private InputController inputController;
-
     [SerializeField] private BasicAttackSO attack;
-
     [SerializeField] private int pickupRange = 4;
-
     [SerializeField] InventoryController inventoryController;
-
     [SerializeField] private SkillTabController skillTabController;
-
     [SerializeField] private BuildMenuUI buildMenuUI;
+    [SerializeField] private GameObject damageTextPrefab;
+
+    private Canvas canvas;
 
     private NavMeshAgent navMeshAgent;
 
@@ -69,6 +68,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void Start()
     {
+        canvas = FindObjectOfType<Canvas>();
+
         inputController.OnMove += InputController_OnMove;
         inputController.OnEnemyClicked += InputController_OnDamageableClicked;
         inputController.OnOpenInventory += InputController_OnOpenInventory;
@@ -214,5 +215,35 @@ public class PlayerController : MonoBehaviour, IDamage
     public void HarvestResource(int resourceCount, HarvestableSO harvestableSO)
     {
         inventoryController.AddItem(harvestableSO);
+    }
+
+    public void DamageReceived(int damageReceived, GameObject damageFrom)
+    {
+        currentHealth -= damageReceived;
+
+        ShowDamageText(damageReceived);
+
+        if (currentHealth <= 0)
+        {
+            Debug.Log("You have died. Your deeds of valor will be remembered");
+        }
+    }
+
+    public void ShowDamageText(int damageAmount)
+    {
+        GameObject damageText = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, canvas.transform);
+
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+
+        RectTransform rectTransform = damageText.GetComponent<RectTransform>();
+
+        rectTransform.position = screenPosition;
+
+        TextMeshProUGUI textMesh = damageText.GetComponent<TextMeshProUGUI>();
+
+        if (textMesh != null)
+        {
+            textMesh.text = damageAmount.ToString();
+        }
     }
 }
