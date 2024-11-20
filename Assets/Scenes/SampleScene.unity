@@ -12765,10 +12765,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
+      propertyPath: roamingRange
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
+        type: 3}
       propertyPath: damageTextPrefab
       value: 
       objectReference: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
         type: 3}
+    - target: {fileID: 6355342950012129312, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
+        type: 3}
+      propertyPath: m_AngularSpeed
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
