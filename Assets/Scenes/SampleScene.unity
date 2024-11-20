@@ -12750,7 +12750,7 @@ PrefabInstance:
     - target: {fileID: 3337887316481394620, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
@@ -12762,6 +12762,12 @@ PrefabInstance:
       propertyPath: lootSO
       value: 
       objectReference: {fileID: 11400000, guid: 59d0d84f484306041bbc3f120831c0d0,
+        type: 2}
+    - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
+        type: 3}
+      propertyPath: enemySO
+      value: 
+      objectReference: {fileID: 11400000, guid: 84351b6f8580c2b41a7a0ee4d49dfb97,
         type: 2}
     - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
@@ -12777,7 +12783,7 @@ PrefabInstance:
     - target: {fileID: 6355342950012129312, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
       propertyPath: m_AngularSpeed
-      value: 30
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,12 +10,12 @@ using Random = UnityEngine.Random;
 public class EnemyController : MonoBehaviour, IDamageable, ILootable
 {
     [SerializeField] private ItemSO itemSO;
-
+    [SerializeField] private EnemySO enemySO;
     [SerializeField] private GameObject damageTextPrefab;
 
-    [SerializeField] private float roamingRange;
-
     private Canvas canvas;
+
+    private NavMeshAgent agent;
 
     private Vector3 startingPos, targetPos;
 
@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
     private float idleTime = 5f; // seconds enemies should stay idle before roaming
 
     private float countingTime = 0f;
+
+    private float roamingRange;
 
     private int health, maxHealth;
 
@@ -81,9 +83,10 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
     private void Start()
     {
         canvas = FindObjectOfType<Canvas>();
-
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = enemySO.Speed;
         health = 100;
-
+        roamingRange = enemySO.RoamingRange;
         startingPos = transform.position;
 
         roamingCoroutine = StartCoroutine(GetRoamingTargetCoroutine(roamingRange, position => targetPos = position));
@@ -93,7 +96,7 @@ public class EnemyController : MonoBehaviour, IDamageable, ILootable
     {
         if (isRoaming)
         {
-            GetComponent<NavMeshAgent>().SetDestination(targetPos);
+            agent.SetDestination(targetPos);
 
             if (Vector3.Distance(transform.position, targetPos) < 0.5f)
             {
