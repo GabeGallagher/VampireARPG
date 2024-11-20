@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5536763772082792088}
   - component: {fileID: 7754224063293595191}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979b2095766721c43ab3bb297fd6b7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: 1d01d81151db8da4486a2a6933d50c80, type: 2}
 --- !u!1 &6741588738633379509
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 4548542218206141404}
   - component: {fileID: 7154522309649290220}
   - component: {fileID: 2793731106184112412}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DeskVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

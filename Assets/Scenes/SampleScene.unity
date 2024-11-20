@@ -2804,6 +2804,7 @@ MonoBehaviour:
   buildablesList:
   - {fileID: 11400000, guid: e074104b516fcaf4b817cc25a07b0b3c, type: 2}
   - {fileID: 11400000, guid: fe5103299bd1a6248afdbd0bbc5c409f, type: 2}
+  - {fileID: 11400000, guid: 1d01d81151db8da4486a2a6933d50c80, type: 2}
   buildButtonPrefab: {fileID: 5155437230372959979, guid: cfe29c8250887bb488c25f49db89f4e5,
     type: 3}
 --- !u!1 &410087039
@@ -11405,7 +11406,7 @@ GameObject:
   - component: {fileID: 1975681323}
   - component: {fileID: 1975681324}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

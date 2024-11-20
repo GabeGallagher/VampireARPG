@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static CastleBuildingSystem;
@@ -12,6 +13,8 @@ public class CastleBuildingSystem : MonoBehaviour
     [SerializeField] private Material canPlaceMaterial, cantPlaceMaterial;
 
     private Grid<GridObject> grid;
+
+    private GridObject gridObject;
 
     private GameObject previewObject, placeablePrefab;
 
@@ -44,6 +47,13 @@ public class CastleBuildingSystem : MonoBehaviour
         {
             Destroy(previewObject);
         }
+
+        if (!inBuildMode)
+        {
+            DynamicNavMesh navMesh = floor.transform.parent.GetComponent<DynamicNavMesh>();
+
+            navMesh.UpdateNavMesh();
+        }
     }
 
     private void Update()
@@ -52,7 +62,7 @@ public class CastleBuildingSystem : MonoBehaviour
         {
             GetFloorPosition(GetMouseWorldPosition(), out float x, out float z);
 
-            GridObject gridObject = grid.GetValue(GetMouseWorldPosition());
+            gridObject = grid.GetValue(GetMouseWorldPosition());
 
             if (previewObject == null)
             {
@@ -60,9 +70,12 @@ public class CastleBuildingSystem : MonoBehaviour
             }
             previewRenderer = previewObject.GetComponentInChildren<Renderer>();
 
-            previewObject.transform.position = new Vector3(x, 0, z);
+            if (previewObject.GetComponent<Buildable>().So.BuildableType != BuildableSO.EBuildableType.Wall)
+            {
+                previewObject.transform.position = new Vector3(x, 0, z);
+            }
 
-            if (gridObject.CanBuild())
+            if (CanBuild(placeablePrefab.GetComponent<Buildable>().So, gridObject))
             {
                 previewRenderer.material = canPlaceMaterial;
             }
@@ -73,10 +86,35 @@ public class CastleBuildingSystem : MonoBehaviour
 
             if (CanBuild(placeablePrefab.GetComponent<Buildable>().So, gridObject) && Input.GetMouseButtonDown(0) && !inputController.IsPointerOverUIElement())
             {
-                GameObject building = Instantiate(placeablePrefab, new Vector3(x, 0, z), Quaternion.identity);
-
-                gridObject.PlacedObject = building.transform;
+                Build(placeablePrefab, new Vector3(x, 0, z));
             }
+        }
+    }
+
+    private void Build(GameObject placeablePrefab, Vector3 location)
+    {
+        BuildableSO so = placeablePrefab.GetComponent<Buildable>().So;
+
+        switch (so.BuildableType)
+        {
+            case BuildableSO.EBuildableType.Floor:
+                GameObject buildableFloor = Instantiate(placeablePrefab, location, Quaternion.identity);
+                gridObject.PlacedObject = buildableFloor.transform;
+                break;
+
+            case BuildableSO.EBuildableType.Wall:
+                GameObject wall = Instantiate(placeablePrefab, location, Quaternion.identity);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                int floorLayerMask = LayerMask.GetMask("Floor");
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, floorLayerMask))
+                {
+                    wall.transform.position = SetWallPosition(hitInfo, wall, out FloorBuildable.EBuildableEdge edge);
+                    Transform parentFloor = hitInfo.collider.gameObject.transform.parent;
+                    FloorBuildable floorBuildable = parentFloor.GetComponent<FloorBuildable>();
+                    floorBuildable.SetEdge(wall, edge);
+                }
+                break;
+
         }
     }
 
@@ -88,18 +126,91 @@ public class CastleBuildingSystem : MonoBehaviour
                 return gridObject.CanBuild();
 
             case BuildableSO.EBuildableType.Wall:
-                return gridObject.CanBuild();
+                return CanBuildWall(gridObject);
 
             case BuildableSO.EBuildableType.Desk:
-                if (gridObject.PlacedObject != null && gridObject.PlacedObject.GetComponent<Buildable>().So.BuildableType == BuildableSO.EBuildableType.Floor)
+                if (gridObject.PlacedObject != null)
                 {
-                    return true;
+                    BuildableSO so = gridObject.PlacedObject.GetComponent<Buildable>().So;
+                    if (so.BuildableType == BuildableSO.EBuildableType.Floor)
+                    {
+                        return true;
+                    }
                 }
                 return false;
 
             default:
                 Debug.Log($"{buildableSO.BuildableType} unhandled in CanBuild(BuildableSO {buildableSO}, GridObject {gridObject}");
                 return false;
+        }
+    }
+
+    private bool CanBuildWall(GridObject gridObject)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        int floorLayerMask = LayerMask.GetMask("Floor");
+
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, floorLayerMask))
+        {
+            GameObject buildableFloor = hitInfo.collider.gameObject;
+
+            if (buildableFloor.layer == LayerMask.NameToLayer("Floor"))
+            {
+                previewObject.transform.position = SetWallPosition(hitInfo, previewObject, out FloorBuildable.EBuildableEdge edge);
+
+                FloorBuildable floorBuildable = buildableFloor.transform.parent.GetComponent<FloorBuildable>();
+
+                if (floorBuildable.HasEdge(edge))
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Vector3 SetWallPosition(RaycastHit hitInfo, GameObject wall, out FloorBuildable.EBuildableEdge edge)
+    {
+        Bounds floorBounds = hitInfo.collider.bounds;
+
+        Vector3 floorCenter = floorBounds.center;
+
+        float extentX = floorBounds.extents.x;
+        float extentZ = floorBounds.extents.z;
+
+        Vector3 direction = hitInfo.point - floorCenter;
+
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
+        {
+            wall.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+            if (direction.x > 0)
+            {
+                edge = FloorBuildable.EBuildableEdge.Right;
+                return new Vector3(floorCenter.x + extentX, floorCenter.y, floorCenter.z + extentZ);
+            }
+            else
+            {
+                edge = FloorBuildable.EBuildableEdge.Left;
+                return new Vector3(floorCenter.x - extentX, floorCenter.y, floorCenter.z + extentZ);
+            }
+        }
+        else
+        {
+            wall.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            if (direction.z > 0)
+            {
+                edge = FloorBuildable.EBuildableEdge.Up;
+                return new Vector3(floorCenter.x - extentX, floorCenter.y, floorCenter.z + extentZ);
+            }
+            else
+            {
+                edge = FloorBuildable.EBuildableEdge.Down;
+                return new Vector3(floorCenter.x - extentX, floorCenter.y, floorCenter.z - extentZ);
+            }
         }
     }
 
@@ -161,6 +272,7 @@ public class CastleBuildingSystem : MonoBehaviour
         private int x;
         private int z;
         private Transform placedObject;
+        private List<Transform> placedObjectList;
 
         public GridObject(Grid<GridObject> grid, int x, int z)
         {
@@ -178,6 +290,17 @@ public class CastleBuildingSystem : MonoBehaviour
 
                 grid.TriggerGridObjectChange(x, z);
             }
+        }
+
+        public int X { get => x; }
+
+        public int Z { get => z; }
+
+        public List<Transform> PlacedObjectList { get => placedObjectList; }
+
+        public void AddToPlacedObjectsList(Transform placedObject)
+        {
+            placedObjectList.Add(placedObject);
         }
 
         public void ClearObject()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 493107263520691647}
   - component: {fileID: -7841794115388637949}
   - component: {fileID: 4590641342922383059}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,6 +79,10 @@ PrefabInstance:
     - target: {fileID: 1631607032641582, guid: 0c14f3ea30af4174ba288b3c2042f665, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Sword_01_Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 1631607032641582, guid: 0c14f3ea30af4174ba288b3c2042f665, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4561571508225656, guid: 0c14f3ea30af4174ba288b3c2042f665, type: 3}
       propertyPath: m_LocalPosition.x

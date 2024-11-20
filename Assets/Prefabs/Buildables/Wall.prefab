@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7538345157075420670}
   - component: {fileID: 8319684711111332492}
   - component: {fileID: 5563191400008006391}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4200763152623022979}
   - component: {fileID: -1568441073357287880}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,3 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979b2095766721c43ab3bb297fd6b7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  so: {fileID: 11400000, guid: fe5103299bd1a6248afdbd0bbc5c409f, type: 2}
