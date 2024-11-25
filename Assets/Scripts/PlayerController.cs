@@ -6,11 +6,14 @@ using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour, IDamage, IDamageable
 {
+    public int strength, agility, intelligence, vitality;
+
     [SerializeField] private InputController inputController;
-    [SerializeField] private BasicAttackSO attack;
+    [SerializeField] private PhysicalAttackSO attack;
     [SerializeField] private int pickupRange = 4;
     [SerializeField] InventoryController inventoryController;
     [SerializeField] private SkillTabController skillTabController;
@@ -41,7 +44,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     private bool inBuildMode = false;
 
-    public BasicAttackSO Attack { get => attack; }
+    public PhysicalAttackSO Attack { get => attack; }
 
     public int MaxHealth { get => maxHealth; }
 
@@ -121,7 +124,9 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     {
         float distanceToEnemy = Vector3.Distance(transform.position, e.TargetTransform.position);
 
-        if (distanceToEnemy <= (float)attack.Range)
+        ItemSO weapon = inventoryController.MainHand;
+
+        if (distanceToEnemy <= (float)weapon.Range || weapon.IsRanged)
         {
             List<Transform> targetTransformList = new List<Transform>();
 
@@ -139,7 +144,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
         yield return new WaitForSeconds(attackTime);
 
-        DealDamage(attack.Damage, targetTransformList);
+        DealDamage((int)attack.Damage, targetTransformList);
 
         isAttacking = false;
 
@@ -158,6 +163,12 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         {
             StopMoving();
         }
+    }
+
+    private int CalcPhysicalDamage(PhysicalAttackSO skill)
+    {
+        int weaponDmg = (int)Random.Range(inventoryController.MainHand.MinDamage, inventoryController.MainHand.MaxDamage);
+        return (int)(weaponDmg * skill.Damage * (strength / 100));
     }
 
     public void DealDamage(int damage, List<Transform> targetList)
@@ -245,5 +256,11 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         {
             textMesh.text = damageAmount.ToString();
         }
+    }
+
+    public float GetAttackingRange()
+    {
+        if (inventoryController.MainHand.IsRanged) return Mathf.Infinity;
+        return inventoryController.MainHand.Range;
     }
 }

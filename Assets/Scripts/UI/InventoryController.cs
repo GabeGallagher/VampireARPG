@@ -8,18 +8,16 @@ using UnityEngine.UI;
 public class InventoryController : MonoBehaviour
 {
     [SerializeField] private Transform itemStash;
-
     [SerializeField] private Transform equipped;
-
     [SerializeField] private Transform rightHand, leftHand;
-
     [SerializeField] private InputController inputController;
 
     private List<ItemSO> itemsList = new List<ItemSO>();
-
     private GraphicRaycaster graphicRaycaster;
-
     private EventSystem eventSystem;
+    private ItemSO mainHand;
+
+    public ItemSO MainHand { get => mainHand; }
 
     private void Awake()
     {
@@ -103,11 +101,11 @@ public class InventoryController : MonoBehaviour
 
         switch (itemSO.ItemType)
         {
-            // TODO: Figure out why sword is attached but doesn't follow hand properly
             case ItemSO.EItemType.Weapon:
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
                 GameObject weapon = Instantiate(itemSO.Prefab, rightHand);
                 mainHandSlot.ItemSO = itemSO;
+                mainHand = itemSO;
 
                 // position coords are contained in the weapon folder in Prefabs/Items
                 Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);

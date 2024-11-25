@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7cba67825adad4b9f9497dcb29afd3, type: 3}
-  m_Name: ZombieSO
+  m_Script: {fileID: 11500000, guid: 7f59f0b1f55ace7439ce5c18c0a78036, type: 3}
+  m_Name: Item SO
   m_EditorClassIdentifier: 
-  speed: 1
-  roamingRange: 5
-  aggroRange: 8
-  attackRange: 3
-  damage: 0
+  prefab: {fileID: 0}
+  sprite: {fileID: 0}
+  itemType: 0
+  itemName: 
+  range: 0
+  minDamage: 0
+  maxDamage: 0
+  isRanged: 0

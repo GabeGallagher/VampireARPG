@@ -131,6 +131,159 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_1"",
+                    ""type"": ""Button"",
+                    ""id"": ""0bba9bb4-d8e9-4547-b3a9-2c331485b6aa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_2"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ead969e-a561-491d-824e-7730135469e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_3"",
+                    ""type"": ""Button"",
+                    ""id"": ""063aa72f-8a9b-45da-8238-33f0ce5ba192"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_4"",
+                    ""type"": ""Button"",
+                    ""id"": ""c74ceca3-8a08-494f-801d-5d1231e5f178"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_5"",
+                    ""type"": ""Button"",
+                    ""id"": ""4fe48a36-dd22-43a7-bad3-d2c9047e2057"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_6"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5106d0c-b3c7-43df-9f7f-5921cb761325"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_7"",
+                    ""type"": ""Button"",
+                    ""id"": ""decdc477-0df9-412a-98ed-df1e39a7f23a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_8"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5fa5cad-2300-4788-8a7a-005f73c495e0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_9"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba729dea-886d-4b37-adb6-b6d5bfde193d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_10"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3c5291f-8f2b-4eaa-995d-9fc2ed87fb69"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_11"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dd78a9c-ff0e-465e-9bbb-149320ee4855"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_12"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd469d3f-3a5f-4f28-be3e-c2cd2d4872b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_13"",
+                    ""type"": ""Button"",
+                    ""id"": ""164e9d0b-0107-4073-a429-29ae2bb6dc91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_14"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf3c2a14-9533-4774-9b15-b8ce0dc0ba84"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_15"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6a7d728-8f4a-4bc0-bbb9-e97126b03e12"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skill_16"",
+                    ""type"": ""Button"",
+                    ""id"": ""53fac5ee-428c-430b-9a49-2bf5aac8a1d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TownPortal"",
+                    ""type"": ""Button"",
+                    ""id"": ""b560041a-50a8-42a1-9439-4fbbda6c4750"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -142,6 +295,193 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleBuildMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17667bf5-382a-4019-8638-44ee3087fad9"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37d2413b-5703-4874-b536-2c8d695ce34b"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45936dd0-7d0e-407b-a310-f5f6d0bb8073"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb5e769c-a729-4b49-9078-f67a1d09d926"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c702d7a-1b4a-4b74-a3ba-04f1f1b968eb"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c876c1c7-ac2f-4acc-8fa2-63ab7845caf1"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48b4f8b3-618d-490a-9a14-2230c9119443"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_7"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""660b11ef-e8f6-418b-9970-767799284ed8"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_8"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""422d6419-0114-4090-9772-f8127ba9431a"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_9"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3cc20f35-3c8b-4e7b-905e-25d5f663825d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_10"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72001333-5aa8-4876-9f4a-95e5bedcebb9"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_11"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""434ab879-a07e-4f30-b5e2-ad4b9245d9f6"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_12"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3fb85b27-92b1-4a80-96fe-175caf77e1a5"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_13"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""659d493c-ffc0-409a-8caa-7115587d5304"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_14"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67a1be00-39e2-46c2-8e3b-cc07d6ce56f0"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_15"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d1cf5d7-b9b3-48b5-b9bb-93b579a5d93a"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skill_16"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66b8be83-7cb5-49a9-99d5-938c668ae5df"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TownPortal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -161,6 +501,23 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_ToggleBuildMode = m_PlayerActions.FindAction("ToggleBuildMode", throwIfNotFound: true);
+        m_PlayerActions_Skill_1 = m_PlayerActions.FindAction("Skill_1", throwIfNotFound: true);
+        m_PlayerActions_Skill_2 = m_PlayerActions.FindAction("Skill_2", throwIfNotFound: true);
+        m_PlayerActions_Skill_3 = m_PlayerActions.FindAction("Skill_3", throwIfNotFound: true);
+        m_PlayerActions_Skill_4 = m_PlayerActions.FindAction("Skill_4", throwIfNotFound: true);
+        m_PlayerActions_Skill_5 = m_PlayerActions.FindAction("Skill_5", throwIfNotFound: true);
+        m_PlayerActions_Skill_6 = m_PlayerActions.FindAction("Skill_6", throwIfNotFound: true);
+        m_PlayerActions_Skill_7 = m_PlayerActions.FindAction("Skill_7", throwIfNotFound: true);
+        m_PlayerActions_Skill_8 = m_PlayerActions.FindAction("Skill_8", throwIfNotFound: true);
+        m_PlayerActions_Skill_9 = m_PlayerActions.FindAction("Skill_9", throwIfNotFound: true);
+        m_PlayerActions_Skill_10 = m_PlayerActions.FindAction("Skill_10", throwIfNotFound: true);
+        m_PlayerActions_Skill_11 = m_PlayerActions.FindAction("Skill_11", throwIfNotFound: true);
+        m_PlayerActions_Skill_12 = m_PlayerActions.FindAction("Skill_12", throwIfNotFound: true);
+        m_PlayerActions_Skill_13 = m_PlayerActions.FindAction("Skill_13", throwIfNotFound: true);
+        m_PlayerActions_Skill_14 = m_PlayerActions.FindAction("Skill_14", throwIfNotFound: true);
+        m_PlayerActions_Skill_15 = m_PlayerActions.FindAction("Skill_15", throwIfNotFound: true);
+        m_PlayerActions_Skill_16 = m_PlayerActions.FindAction("Skill_16", throwIfNotFound: true);
+        m_PlayerActions_TownPortal = m_PlayerActions.FindAction("TownPortal", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -331,11 +688,45 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerActions;
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_ToggleBuildMode;
+    private readonly InputAction m_PlayerActions_Skill_1;
+    private readonly InputAction m_PlayerActions_Skill_2;
+    private readonly InputAction m_PlayerActions_Skill_3;
+    private readonly InputAction m_PlayerActions_Skill_4;
+    private readonly InputAction m_PlayerActions_Skill_5;
+    private readonly InputAction m_PlayerActions_Skill_6;
+    private readonly InputAction m_PlayerActions_Skill_7;
+    private readonly InputAction m_PlayerActions_Skill_8;
+    private readonly InputAction m_PlayerActions_Skill_9;
+    private readonly InputAction m_PlayerActions_Skill_10;
+    private readonly InputAction m_PlayerActions_Skill_11;
+    private readonly InputAction m_PlayerActions_Skill_12;
+    private readonly InputAction m_PlayerActions_Skill_13;
+    private readonly InputAction m_PlayerActions_Skill_14;
+    private readonly InputAction m_PlayerActions_Skill_15;
+    private readonly InputAction m_PlayerActions_Skill_16;
+    private readonly InputAction m_PlayerActions_TownPortal;
     public struct PlayerActionsActions
     {
         private @InputActions m_Wrapper;
         public PlayerActionsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleBuildMode => m_Wrapper.m_PlayerActions_ToggleBuildMode;
+        public InputAction @Skill_1 => m_Wrapper.m_PlayerActions_Skill_1;
+        public InputAction @Skill_2 => m_Wrapper.m_PlayerActions_Skill_2;
+        public InputAction @Skill_3 => m_Wrapper.m_PlayerActions_Skill_3;
+        public InputAction @Skill_4 => m_Wrapper.m_PlayerActions_Skill_4;
+        public InputAction @Skill_5 => m_Wrapper.m_PlayerActions_Skill_5;
+        public InputAction @Skill_6 => m_Wrapper.m_PlayerActions_Skill_6;
+        public InputAction @Skill_7 => m_Wrapper.m_PlayerActions_Skill_7;
+        public InputAction @Skill_8 => m_Wrapper.m_PlayerActions_Skill_8;
+        public InputAction @Skill_9 => m_Wrapper.m_PlayerActions_Skill_9;
+        public InputAction @Skill_10 => m_Wrapper.m_PlayerActions_Skill_10;
+        public InputAction @Skill_11 => m_Wrapper.m_PlayerActions_Skill_11;
+        public InputAction @Skill_12 => m_Wrapper.m_PlayerActions_Skill_12;
+        public InputAction @Skill_13 => m_Wrapper.m_PlayerActions_Skill_13;
+        public InputAction @Skill_14 => m_Wrapper.m_PlayerActions_Skill_14;
+        public InputAction @Skill_15 => m_Wrapper.m_PlayerActions_Skill_15;
+        public InputAction @Skill_16 => m_Wrapper.m_PlayerActions_Skill_16;
+        public InputAction @TownPortal => m_Wrapper.m_PlayerActions_TownPortal;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -348,6 +739,57 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ToggleBuildMode.started += instance.OnToggleBuildMode;
             @ToggleBuildMode.performed += instance.OnToggleBuildMode;
             @ToggleBuildMode.canceled += instance.OnToggleBuildMode;
+            @Skill_1.started += instance.OnSkill_1;
+            @Skill_1.performed += instance.OnSkill_1;
+            @Skill_1.canceled += instance.OnSkill_1;
+            @Skill_2.started += instance.OnSkill_2;
+            @Skill_2.performed += instance.OnSkill_2;
+            @Skill_2.canceled += instance.OnSkill_2;
+            @Skill_3.started += instance.OnSkill_3;
+            @Skill_3.performed += instance.OnSkill_3;
+            @Skill_3.canceled += instance.OnSkill_3;
+            @Skill_4.started += instance.OnSkill_4;
+            @Skill_4.performed += instance.OnSkill_4;
+            @Skill_4.canceled += instance.OnSkill_4;
+            @Skill_5.started += instance.OnSkill_5;
+            @Skill_5.performed += instance.OnSkill_5;
+            @Skill_5.canceled += instance.OnSkill_5;
+            @Skill_6.started += instance.OnSkill_6;
+            @Skill_6.performed += instance.OnSkill_6;
+            @Skill_6.canceled += instance.OnSkill_6;
+            @Skill_7.started += instance.OnSkill_7;
+            @Skill_7.performed += instance.OnSkill_7;
+            @Skill_7.canceled += instance.OnSkill_7;
+            @Skill_8.started += instance.OnSkill_8;
+            @Skill_8.performed += instance.OnSkill_8;
+            @Skill_8.canceled += instance.OnSkill_8;
+            @Skill_9.started += instance.OnSkill_9;
+            @Skill_9.performed += instance.OnSkill_9;
+            @Skill_9.canceled += instance.OnSkill_9;
+            @Skill_10.started += instance.OnSkill_10;
+            @Skill_10.performed += instance.OnSkill_10;
+            @Skill_10.canceled += instance.OnSkill_10;
+            @Skill_11.started += instance.OnSkill_11;
+            @Skill_11.performed += instance.OnSkill_11;
+            @Skill_11.canceled += instance.OnSkill_11;
+            @Skill_12.started += instance.OnSkill_12;
+            @Skill_12.performed += instance.OnSkill_12;
+            @Skill_12.canceled += instance.OnSkill_12;
+            @Skill_13.started += instance.OnSkill_13;
+            @Skill_13.performed += instance.OnSkill_13;
+            @Skill_13.canceled += instance.OnSkill_13;
+            @Skill_14.started += instance.OnSkill_14;
+            @Skill_14.performed += instance.OnSkill_14;
+            @Skill_14.canceled += instance.OnSkill_14;
+            @Skill_15.started += instance.OnSkill_15;
+            @Skill_15.performed += instance.OnSkill_15;
+            @Skill_15.canceled += instance.OnSkill_15;
+            @Skill_16.started += instance.OnSkill_16;
+            @Skill_16.performed += instance.OnSkill_16;
+            @Skill_16.canceled += instance.OnSkill_16;
+            @TownPortal.started += instance.OnTownPortal;
+            @TownPortal.performed += instance.OnTownPortal;
+            @TownPortal.canceled += instance.OnTownPortal;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -355,6 +797,57 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @ToggleBuildMode.started -= instance.OnToggleBuildMode;
             @ToggleBuildMode.performed -= instance.OnToggleBuildMode;
             @ToggleBuildMode.canceled -= instance.OnToggleBuildMode;
+            @Skill_1.started -= instance.OnSkill_1;
+            @Skill_1.performed -= instance.OnSkill_1;
+            @Skill_1.canceled -= instance.OnSkill_1;
+            @Skill_2.started -= instance.OnSkill_2;
+            @Skill_2.performed -= instance.OnSkill_2;
+            @Skill_2.canceled -= instance.OnSkill_2;
+            @Skill_3.started -= instance.OnSkill_3;
+            @Skill_3.performed -= instance.OnSkill_3;
+            @Skill_3.canceled -= instance.OnSkill_3;
+            @Skill_4.started -= instance.OnSkill_4;
+            @Skill_4.performed -= instance.OnSkill_4;
+            @Skill_4.canceled -= instance.OnSkill_4;
+            @Skill_5.started -= instance.OnSkill_5;
+            @Skill_5.performed -= instance.OnSkill_5;
+            @Skill_5.canceled -= instance.OnSkill_5;
+            @Skill_6.started -= instance.OnSkill_6;
+            @Skill_6.performed -= instance.OnSkill_6;
+            @Skill_6.canceled -= instance.OnSkill_6;
+            @Skill_7.started -= instance.OnSkill_7;
+            @Skill_7.performed -= instance.OnSkill_7;
+            @Skill_7.canceled -= instance.OnSkill_7;
+            @Skill_8.started -= instance.OnSkill_8;
+            @Skill_8.performed -= instance.OnSkill_8;
+            @Skill_8.canceled -= instance.OnSkill_8;
+            @Skill_9.started -= instance.OnSkill_9;
+            @Skill_9.performed -= instance.OnSkill_9;
+            @Skill_9.canceled -= instance.OnSkill_9;
+            @Skill_10.started -= instance.OnSkill_10;
+            @Skill_10.performed -= instance.OnSkill_10;
+            @Skill_10.canceled -= instance.OnSkill_10;
+            @Skill_11.started -= instance.OnSkill_11;
+            @Skill_11.performed -= instance.OnSkill_11;
+            @Skill_11.canceled -= instance.OnSkill_11;
+            @Skill_12.started -= instance.OnSkill_12;
+            @Skill_12.performed -= instance.OnSkill_12;
+            @Skill_12.canceled -= instance.OnSkill_12;
+            @Skill_13.started -= instance.OnSkill_13;
+            @Skill_13.performed -= instance.OnSkill_13;
+            @Skill_13.canceled -= instance.OnSkill_13;
+            @Skill_14.started -= instance.OnSkill_14;
+            @Skill_14.performed -= instance.OnSkill_14;
+            @Skill_14.canceled -= instance.OnSkill_14;
+            @Skill_15.started -= instance.OnSkill_15;
+            @Skill_15.performed -= instance.OnSkill_15;
+            @Skill_15.canceled -= instance.OnSkill_15;
+            @Skill_16.started -= instance.OnSkill_16;
+            @Skill_16.performed -= instance.OnSkill_16;
+            @Skill_16.canceled -= instance.OnSkill_16;
+            @TownPortal.started -= instance.OnTownPortal;
+            @TownPortal.performed -= instance.OnTownPortal;
+            @TownPortal.canceled -= instance.OnTownPortal;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -385,5 +878,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IPlayerActionsActions
     {
         void OnToggleBuildMode(InputAction.CallbackContext context);
+        void OnSkill_1(InputAction.CallbackContext context);
+        void OnSkill_2(InputAction.CallbackContext context);
+        void OnSkill_3(InputAction.CallbackContext context);
+        void OnSkill_4(InputAction.CallbackContext context);
+        void OnSkill_5(InputAction.CallbackContext context);
+        void OnSkill_6(InputAction.CallbackContext context);
+        void OnSkill_7(InputAction.CallbackContext context);
+        void OnSkill_8(InputAction.CallbackContext context);
+        void OnSkill_9(InputAction.CallbackContext context);
+        void OnSkill_10(InputAction.CallbackContext context);
+        void OnSkill_11(InputAction.CallbackContext context);
+        void OnSkill_12(InputAction.CallbackContext context);
+        void OnSkill_13(InputAction.CallbackContext context);
+        void OnSkill_14(InputAction.CallbackContext context);
+        void OnSkill_15(InputAction.CallbackContext context);
+        void OnSkill_16(InputAction.CallbackContext context);
+        void OnTownPortal(InputAction.CallbackContext context);
     }
 }

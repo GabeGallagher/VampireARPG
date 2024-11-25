@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd91705b619e5454db909d43c2696b9b, type: 3}
-  m_Name: Basic Attack SO
+  m_Script: {fileID: 11500000, guid: 2aa2076851d13c74dbf886f1e9c1f223, type: 3}
+  m_Name: Skill SO
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 2f4abb19fa8a33245ac4212936ef1872, type: 3}
-  skillName: Basic Attack
-  description: Basic attack. Hit 'em with the pointy end!
-  damage: 10
-  range: 3
+  icon: {fileID: 0}
+  skillName: 
+  description: 
+  damage: 0
+  range: 0

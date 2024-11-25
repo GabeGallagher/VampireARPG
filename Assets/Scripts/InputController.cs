@@ -132,7 +132,7 @@ public class InputController : MonoBehaviour
             {
                 float playerDistanceToEnemy = Vector3.Distance(player.transform.position, enemy.transform.position);
 
-                if (player.Attack.Range < playerDistanceToEnemy)
+                if (player.GetAttackingRange() < playerDistanceToEnemy)
                 {
                     mousePosition = enemy.transform.position;
                 }
