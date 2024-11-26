@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7f27df0d578546442a938848075fa3b4, type: 3}
-  m_Name: Sprint SO
+  m_Name: Force Move SO
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: d5bad026abcb25846b246755b45e3f0d, type: 3}
-  skillName: Sprint
-  description: Run Forrest
+  icon: {fileID: 21300000, guid: 76640b073fead874d8725dc58a7a86b6, type: 3}
+  skillName: Force Move
+  description: Force Move
   damage: 0
   range: 0

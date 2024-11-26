@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour, IDamage, IDamageable
 {
+    public List<SkillSO> learnedSkills;
     public int strength, agility, intelligence, vitality;
 
     [SerializeField] private InputController inputController;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     private int levelUpExperience = 10;
 
-    private int level = 1;
+    [SerializeField] private int level = 1;
 
     private bool isRunning = false;
 
