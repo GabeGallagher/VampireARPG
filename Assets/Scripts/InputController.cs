@@ -97,13 +97,16 @@ public class InputController : MonoBehaviour
 
     private void Move_performed(InputAction.CallbackContext obj)
     {
-        GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
-
-        mouseClickAnimation.transform.position = mousePosition;
-
-        if (canMove)
+        if (!IsPointerOverUIElement()) // prevents movement if mouse is over ui
         {
-            OnMove?.Invoke(this, EventArgs.Empty); 
+            GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
+
+            mouseClickAnimation.transform.position = mousePosition;
+
+            if (canMove)
+            {
+                OnMove?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
