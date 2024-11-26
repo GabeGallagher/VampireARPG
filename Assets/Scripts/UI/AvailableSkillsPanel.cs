@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class AvailableSkillsPanel : MonoBehaviour
 {
     [SerializeField] private Transform skillsContainer;
+    [SerializeField] private GameObject availableSkillsButtonPrefab;
 
     public void BuildSkillsPanel(PlayerController player)
     {
@@ -11,9 +12,11 @@ public class AvailableSkillsPanel : MonoBehaviour
 
         foreach (SkillSO skill in player.learnedSkills)
         {
-            GameObject imgObj = new GameObject($"{skill.name}_icon");
-            Image img = imgObj.AddComponent<Image>();
-            imgObj.transform.SetParent(skillsContainer.transform, false);
+            GameObject skillBtn = Instantiate(availableSkillsButtonPrefab, skillsContainer, false);
+            AvailableSkillsButtonController skillBtnController = skillBtn.GetComponent<AvailableSkillsButtonController>();
+            skillBtnController.Skill = skill;
+            skillBtn.name = $"{skill.name}_button";
+            Image img = skillBtn.GetComponent<Image>();
             img.sprite = skill.Icon;
         }
     }

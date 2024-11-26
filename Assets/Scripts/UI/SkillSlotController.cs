@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillSlotController : MonoBehaviour
 {
+    public SkillSO skill;
+    public Image img;
+
     [SerializeField] private AvailableSkillsPanel availableSkillsPanel;
 
     private PlayerController player;

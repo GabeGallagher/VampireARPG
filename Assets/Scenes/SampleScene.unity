@@ -16757,6 +16757,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillSlot_0
       objectReference: {fileID: 0}
+    - target: {fileID: 1977354404175145549, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1977354404175145549, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 76640b073fead874d8725dc58a7a86b6,
+        type: 3}
     - target: {fileID: 2285682903931990835, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -16855,6 +16866,21 @@ PrefabInstance:
     - target: {fileID: 2285682903931990835, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940191326991743228, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4568057642962781832, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347661561693499740, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8373139096473448402, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
