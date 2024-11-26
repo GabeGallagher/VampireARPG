@@ -97,7 +97,7 @@ public class InputController : MonoBehaviour
 
     private void Move_performed(InputAction.CallbackContext obj)
     {
-        if (!IsPointerOverUIElement()) // prevents movement if mouse is over ui
+        if (!IsPointerOverUIElement()) // prevents movement clicks when click ui
         {
             GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
 
@@ -112,16 +112,19 @@ public class InputController : MonoBehaviour
 
     private void CheckForMovementHold()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        if (!IsPointerOverUIElement())
         {
-            mousePosition = hitInfo.point;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (isHolding && canMove)
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
-                OnMove?.Invoke(this, EventArgs.Empty);
-            }
+                mousePosition = hitInfo.point;
+
+                if (isHolding && canMove)
+                {
+                    OnMove?.Invoke(this, EventArgs.Empty);
+                }
+            } 
         }
     }
 
@@ -198,6 +201,7 @@ public class InputController : MonoBehaviour
 
     public bool IsPointerOverUIElement()
     {
+        Debug.Log($"isOverUI: {EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()}");
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 
