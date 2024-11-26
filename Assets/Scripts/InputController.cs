@@ -201,7 +201,6 @@ public class InputController : MonoBehaviour
 
     public bool IsPointerOverUIElement()
     {
-        Debug.Log($"isOverUI: {EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()}");
         return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 
