@@ -8,36 +8,25 @@ using UnityEngine.InputSystem;
 
 public class InputController : MonoBehaviour
 {
-    [SerializeField] private Camera mainCamera;
-
-    [SerializeField] private GameObject mouseTrackerVisual;
-
-    [SerializeField] private PlayerController player;
-
-    private InputActions inputActions;
-
-    private Vector3 mousePosition;
-
-    private bool isHolding = false;
-
-    private bool canMove = true;
-
     public event EventHandler OnMove;
-
     public event EventHandler<OnDamageableClickedEventArgs> OnEnemyClicked;
-
     public event EventHandler OnOpenInventory;
-
     public event EventHandler OnEquipPerformed;
-
     public event EventHandler<OnDamageableClickedEventArgs> OnHarvestableClicked;
-
     public event EventHandler OnToggleBuildMode;
-
     public event EventHandler OnOpenSkillTab;
 
-    public Vector3 MousePosition { get => mousePosition; }
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private GameObject mouseTrackerVisual;
+    [SerializeField] private PlayerController player;
+    [SerializeField] private SkillSlotController leftClickSkill, rightClickSkill;
 
+    private InputActions inputActions;
+    private Vector3 mousePosition;
+    private bool isHolding = false;
+    private bool canMove = true;
+
+    public Vector3 MousePosition { get => mousePosition; }
     public bool CanMove { get => canMove; set => canMove = value; }
 
     private void Start()
@@ -125,6 +114,24 @@ public class InputController : MonoBehaviour
                     OnMove?.Invoke(this, EventArgs.Empty);
                 }
             } 
+        }
+    }
+    // TODO: Update this method to properly cast spell or throw missile
+    private void CheckForAttackHold()
+    {
+        if (!IsPointerOverUIElement())
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                mousePosition = hitInfo.point;
+
+                if (isHolding && canMove)
+                {
+                    Debug.Log("Attacking with ranged missile or spell");
+                }
+            }
         }
     }
 
@@ -215,6 +222,37 @@ public class InputController : MonoBehaviour
             CheckForItemClick();
 
             CheckForHarvestableClick();
+        }
+        // Get right click but prioritize left click if both are held
+        if (Input.GetMouseButtonDown(1) && !Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
+        {
+            SkillSO.ESkillType skillType = rightClickSkill.skill.SkillType;
+            bool isRanged = skillType == SkillSO.ESkillType.Ranged || skillType == SkillSO.ESkillType.Magical;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            Physics.Raycast(ray, out RaycastHit hitInfo);
+            if (hitInfo.transform.TryGetComponent(out Harvestable harvestable))
+            {
+                CheckForHarvestableClick();
+            }
+            else if (skillType == SkillSO.ESkillType.Ranged || skillType == SkillSO.ESkillType.Magical)
+            {
+                canMove = false; // Will need to be set to true in animation
+                Debug.Log($"Casting {rightClickSkill.skill.SkillType}");
+            }
+            else if (skillType == SkillSO.ESkillType.Physical)
+            {
+                CheckForEnemyClick();
+            }
+            else
+            {
+                GameObject mouseClickAnimation = Instantiate(mouseTrackerVisual, transform);
+                mouseClickAnimation.transform.position = mousePosition;
+                if (canMove)
+                {
+                    OnMove?.Invoke(this, EventArgs.Empty);
+                }
+            }
         }
     }
 }

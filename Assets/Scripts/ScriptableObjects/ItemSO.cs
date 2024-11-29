@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -28,10 +29,16 @@ public class ItemSO : ScriptableObject
 
     public GameObject Prefab { get => prefab; }
     public Sprite Sprite { get => sprite; }
-    public EItemType ItemType {  get => itemType; }
+    public EItemType ItemType { get => itemType; }
     public string ItemName { get => itemName; }
-    public int Range { get => range; }
+    public int Range => GetRange();
     public int MinDamage { get => minDamage; }
     public int MaxDamage { get => maxDamage; }
     public bool IsRanged { get => isRanged; }
+
+    private int GetRange()
+    {
+        if (isRanged) return int.MaxValue;
+        else return range;
+    }
 }

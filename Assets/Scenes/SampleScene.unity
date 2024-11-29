@@ -9022,6 +9022,8 @@ MonoBehaviour:
   mouseTrackerVisual: {fileID: 6168046206758039256, guid: 6f8e277cf5d065e4ca0010e191ccc997,
     type: 3}
   player: {fileID: 1623352611}
+  leftClickSkill: {fileID: 1296603157}
+  rightClickSkill: {fileID: 1180268732}
 --- !u!1001 &1180268730
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9035,6 +9037,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightMouseSlot
       objectReference: {fileID: 0}
+    - target: {fileID: 339718026785334799, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: aee0bc9d88b356f4ba0b5b435465747f,
+        type: 2}
     - target: {fileID: 2285682903931990835, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -9135,6 +9143,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3940191326991743228, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f4abb19fa8a33245ac4212936ef1872,
+        type: 3}
+    - target: {fileID: 5347661561693499740, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9146,6 +9165,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1180268730}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1180268732 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 339718026785334799, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1180268730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848f32bc22626b24cbd70e62b6bff397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1181765774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10145,6 +10176,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftMouseSlot
       objectReference: {fileID: 0}
+    - target: {fileID: 339718026785334799, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f6fb9ab8c61b4f439ab9b1313f5a7d4,
+        type: 2}
     - target: {fileID: 2285682903931990835, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
         type: 3}
       propertyPath: m_Pivot.x
@@ -10245,6 +10282,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3940191326991743228, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 76640b073fead874d8725dc58a7a86b6,
+        type: 3}
+    - target: {fileID: 5347661561693499740, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955676578496589029, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10256,6 +10309,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1296603155}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1296603157 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 339718026785334799, guid: 4dbedc279cec7e1418af1cf4f8bea75c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1296603155}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848f32bc22626b24cbd70e62b6bff397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1305808136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11989,15 +12054,16 @@ MonoBehaviour:
   vitality: 20
   inputController: {fileID: 1179498302}
   attack: {fileID: 11400000, guid: aee0bc9d88b356f4ba0b5b435465747f, type: 2}
-  pickupRange: 4
   inventoryController: {fileID: 55192927}
   skillTabController: {fileID: 147821074}
   buildMenuUI: {fileID: 391562564}
   damageTextPrefab: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
     type: 3}
+  distanceToMoveThreshold: 0.025
+  pickupRange: 4
   currentHealth: 100
-  experience: 0
   level: 2
+  experience: 0
 --- !u!195 &1623352612
 NavMeshAgent:
   m_ObjectHideFlags: 0

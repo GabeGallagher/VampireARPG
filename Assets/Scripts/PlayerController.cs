@@ -13,57 +13,65 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     public List<SkillSO> learnedSkills;
     public int strength, agility, intelligence, vitality;
 
+    public event Action<EPlayerState> OnPlayerStateChange;
+
+    public enum EPlayerState
+    {
+        Idle,
+        Running,
+        Attacking,
+        Building,
+    }
+
     [SerializeField] private InputController inputController;
     [SerializeField] private PhysicalAttackSO attack;
-    [SerializeField] private int pickupRange = 4;
-    [SerializeField] InventoryController inventoryController;
+    [SerializeField] private InventoryController inventoryController;
     [SerializeField] private SkillTabController skillTabController;
     [SerializeField] private BuildMenuUI buildMenuUI;
     [SerializeField] private GameObject damageTextPrefab;
 
-    private Canvas canvas;
+    [SerializeField] private float distanceToMoveThreshold = 0.05f;
 
-    private NavMeshAgent navMeshAgent;
-
-    private Vector3 moveToPosition;
-
-    private int maxHealth = 100;
-
+    [SerializeField] private int pickupRange = 4;
     [SerializeField] private int currentHealth = 50;
-
+    [SerializeField] private int level = 1;
     [SerializeField] private int experience = 0;
 
+    private Canvas canvas;
+    private NavMeshAgent navMeshAgent;
+    private Vector3 moveToPosition;
+    private EPlayerState playerState = EPlayerState.Idle;
+
+    private int maxHealth = 100;
     private int levelUpExperience = 10;
 
-    [SerializeField] private int level = 1;
-
-    private bool isRunning = false;
-
-    private bool isAttacking = false;
-
     private bool canMove = true;
-
     private bool inBuildMode = false;
 
     public PhysicalAttackSO Attack { get => attack; }
-
     public int MaxHealth { get => maxHealth; }
-
     public int CurrentHealth { get => currentHealth; }
-
     public int LevelUpExperience {  get => levelUpExperience; }
-
     public int Experience { get => experience; }
-
     public int PickupRange { get => pickupRange; }
-
-    public bool IsRunning { get => isRunning; }
-
-    public bool IsAttacking { get => isAttacking; }
-
+    public bool IsIdle { get => playerState == EPlayerState.Idle; }
+    public bool IsRunning { get => playerState == EPlayerState.Running; }
+    public bool IsAttacking { get => playerState == EPlayerState.Attacking; }
     public bool InBuildMode { get => inBuildMode; }
-
     public InventoryController InventoryController { get => inventoryController; }
+
+    public EPlayerState PlayerState
+    {
+        get => playerState;
+        set
+        {
+            if (playerState != value)
+            {
+                playerState = value;
+                OnPlayerStateChange?.Invoke(playerState);
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -94,6 +102,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         if (inBuildMode)
         {
             canMove = false;
+            PlayerState = EPlayerState.Idle; // Change this to build when build mode idle anim implemented
         }
         else
         {
@@ -111,14 +120,27 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         if (!inputController.CanMove || !canMove)
         {
             navMeshAgent.isStopped = true;
-
             StopMoving();
         }
         else
         {
             navMeshAgent.isStopped = false;
         }
-        isRunning = SetIsRunning();
+
+        if (PlayerState == EPlayerState.Running && HasReachedDestination())
+        {
+            PlayerState = EPlayerState.Idle;
+        }
+    }
+
+    private bool HasReachedDestination()
+    {
+        float threshold = distanceToMoveThreshold;
+
+        float deltaX = transform.position.x - moveToPosition.x;
+        float deltaZ = transform.position.z - moveToPosition.z;
+
+        return (deltaX * deltaX + deltaZ * deltaZ) < (threshold * threshold);
     }
 
     private void InputController_OnDamageableClicked(object sender, OnDamageableClickedEventArgs e)
@@ -139,7 +161,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     private IEnumerator AttackRoutine(float attackTime, List<Transform> targetTransformList)
     {
-        isAttacking = true;
+        PlayerState = EPlayerState.Attacking;
 
         canMove = false;
 
@@ -147,7 +169,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
         DealDamage((int)attack.Damage, targetTransformList);
 
-        isAttacking = false;
+        PlayerState = EPlayerState.Idle;
 
         canMove = true;
     }
@@ -157,8 +179,8 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         if (inputController.CanMove && canMove)
         {
             moveToPosition = inputController.MousePosition;
-
             navMeshAgent.destination = moveToPosition;
+            PlayerState = EPlayerState.Running;
         }
         else
         {
@@ -202,19 +224,10 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         Debug.Log("Leveled Up!");
     }
 
-    private bool SetIsRunning()
-    {
-        if (!isAttacking)
-        {
-            return !(moveToPosition.x == transform.position.x && moveToPosition.z == transform.position.z); 
-        }
-        return false;
-    }
-
-    // sets move to position to current transform position. Quick and dirty way to stop player run animation after certain actions
     public void StopMoving()
     {
         moveToPosition = transform.position;
+        PlayerState = EPlayerState.Idle;
     }
 
     public void PickUp(Item item)
@@ -261,7 +274,8 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     public float GetAttackingRange()
     {
-        if (inventoryController.MainHand.IsRanged) return Mathf.Infinity;
+        if (inventoryController.MainHand == null) return 1f;
+        else if (inventoryController.MainHand.IsRanged) return Mathf.Infinity;
         return inventoryController.MainHand.Range;
     }
 }
