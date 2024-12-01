@@ -135,7 +135,7 @@ public class InputController : MonoBehaviour
         }
     }
 
-    private void CheckForEnemyClick()
+    private void CheckForEnemyClick(SkillSO skill)
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -153,7 +153,7 @@ public class InputController : MonoBehaviour
                 {
                     canMove = false;
                 }
-                OnEnemyClicked?.Invoke(this, new OnDamageableClickedEventArgs(enemy.transform));
+                OnEnemyClicked?.Invoke(this, new OnDamageableClickedEventArgs(enemy.transform, skill));
             }
             else
             {
@@ -201,7 +201,7 @@ public class InputController : MonoBehaviour
                 {
                     canMove = false;
                 }
-                OnHarvestableClicked?.Invoke(this, new OnDamageableClickedEventArgs(harvestable.transform));
+                OnHarvestableClicked?.Invoke(this, new OnDamageableClickedEventArgs(harvestable.transform, player.BasicAttackSkill));
             }
         }
     }
@@ -217,7 +217,7 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
         {
-            CheckForEnemyClick();
+            CheckForEnemyClick(leftClickSkill.skill);
 
             CheckForItemClick();
 
@@ -242,7 +242,7 @@ public class InputController : MonoBehaviour
             }
             else if (skillType == SkillSO.ESkillType.Physical)
             {
-                CheckForEnemyClick();
+                CheckForEnemyClick(rightClickSkill.skill);
             }
             else
             {
@@ -260,9 +260,11 @@ public class InputController : MonoBehaviour
 public class OnDamageableClickedEventArgs : EventArgs
 {
     public Transform TargetTransform { get; }
+    public SkillSO Skill { get; }
 
-    public OnDamageableClickedEventArgs(Transform targetTransform)
+    public OnDamageableClickedEventArgs(Transform targetTransform, SkillSO skill)
     {
         TargetTransform = targetTransform;
+        Skill = skill;
     }
 }

@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private SkillTabController skillTabController;
     [SerializeField] private BuildMenuUI buildMenuUI;
+    [SerializeField] private AnimationController animationController;
     [SerializeField] private GameObject damageTextPrefab;
+    [SerializeField] private SkillSO basicAttackSkill;
 
     [SerializeField] private float distanceToMoveThreshold = 0.05f;
 
@@ -49,16 +51,20 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     private bool inBuildMode = false;
 
     public PhysicalAttackSO Attack { get => attack; }
+    public InventoryController InventoryController { get => inventoryController; }
+    public WeaponSO MainHand => inventoryController.MainHand;
+    public SkillSO BasicAttackSkill => basicAttackSkill;
+
     public int MaxHealth { get => maxHealth; }
     public int CurrentHealth { get => currentHealth; }
     public int LevelUpExperience {  get => levelUpExperience; }
     public int Experience { get => experience; }
     public int PickupRange { get => pickupRange; }
+
     public bool IsIdle { get => playerState == EPlayerState.Idle; }
     public bool IsRunning { get => playerState == EPlayerState.Running; }
     public bool IsAttacking { get => playerState == EPlayerState.Attacking; }
     public bool InBuildMode { get => inBuildMode; }
-    public InventoryController InventoryController { get => inventoryController; }
 
     public EPlayerState PlayerState
     {
@@ -147,15 +153,18 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     {
         float distanceToEnemy = Vector3.Distance(transform.position, e.TargetTransform.position);
 
-        ItemSO weapon = inventoryController.MainHand;
+        if (inventoryController.MainHand != null) // Need to refactor if punches are allowed
 
-        if (distanceToEnemy <= (float)weapon.Range || weapon.IsRanged)
         {
-            List<Transform> targetTransformList = new List<Transform>();
+            WeaponSO weapon = inventoryController.MainHand;
+            float attackRange = MainHand.Range + e.Skill.Range;
 
-            targetTransformList.Add(e.TargetTransform);
-
-            StartCoroutine(AttackRoutine(1f, targetTransformList));
+            if (distanceToEnemy <= attackRange || weapon.IsRanged)
+            {
+                canMove = false;
+                PlayerState = EPlayerState.Attacking;
+                animationController.TriggerAttack();
+            }
         }
     }
 
@@ -203,6 +212,19 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
                 target.GetComponent<IDamageable>().DamageReceived(damage, gameObject);
             }
         }
+    }
+
+    public void SpawnDamageObject()
+    {
+        Debug.Log("Dealing Damage");
+    }
+
+    // Checks if player is holding attacking key. If yes, launch new attack, if not, set player state back to idle
+    public void FinishAttackAnimation()
+    {
+        Debug.Log("Finish Attacking");
+        canMove = true;
+        PlayerState = EPlayerState.Idle;
     }
 
     public void TargetKilled(GameObject target)

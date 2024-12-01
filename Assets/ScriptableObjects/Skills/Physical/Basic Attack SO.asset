@@ -15,5 +15,5 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 2f4abb19fa8a33245ac4212936ef1872, type: 3}
   skillName: Basic Attack
   description: Hit 'em with the pointy end
-  damage: 0
-  range: 0
+  damage: 1
+  range: 1

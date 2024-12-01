@@ -9,7 +9,9 @@ public class AnimationController : MonoBehaviour
     private Animator animator;
     private AnimationState currentState;
     private PlayerController player;
-    private Dictionary<string, RuntimeAnimatorController> weaponAnimators;
+
+    private string triggerAttack = "Attack";
+    private string triggerMoving = "IsMoving";
 
     private void Awake()
     {
@@ -21,20 +23,22 @@ public class AnimationController : MonoBehaviour
     {
         SwitchState(new IdleState(this, player, animator));
         player.OnPlayerStateChange += Player_OnPlayerStateChange;
-        InitializeWeaponAnimators();
     }
 
     private void Player_OnPlayerStateChange(PlayerController.EPlayerState obj)
     {
         AnimationState? state = currentState;
 
-        switch(obj)
+        switch (obj)
         {
             case PlayerController.EPlayerState.Idle:
                 state = new IdleState(this, player, animator); break;
 
             case PlayerController.EPlayerState.Running:
                 state = new RunningState(this, player, animator); break;
+
+            case PlayerController.EPlayerState.Attacking:
+                state = new AttackingState(this, player, animator); break;
         }
 
         if (state != null) SwitchState(state);
@@ -70,11 +74,9 @@ public class AnimationController : MonoBehaviour
         return gameObject.transform.rotation == Quaternion.identity;
     }
 
-    private void InitializeWeaponAnimators()
+    public void TriggerAttack()
     {
-        weaponAnimators = new Dictionary<string, RuntimeAnimatorController>
-        {
-            //{ "OneHanded", Resources.Load<RuntimeAnimatorController>("Animators/OneHandedAnimator") },
-        };
+        animator.SetBool("IsTwoHanded", player.MainHand.IsTwoHanded);
+        animator.SetTrigger(triggerAttack);
     }
 }

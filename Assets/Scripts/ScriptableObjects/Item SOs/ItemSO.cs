@@ -23,22 +23,9 @@ public class ItemSO : ScriptableObject
     [SerializeField] private Sprite sprite;
     [SerializeField] private EItemType itemType;
     [SerializeField] private string itemName;
-    [SerializeField] private int range;
-    [SerializeField] private int minDamage, maxDamage;
-    [SerializeField] private bool isRanged;
 
     public GameObject Prefab { get => prefab; }
     public Sprite Sprite { get => sprite; }
-    public EItemType ItemType { get => itemType; }
+    public virtual EItemType ItemType { get => itemType; }
     public string ItemName { get => itemName; }
-    public int Range => GetRange();
-    public int MinDamage { get => minDamage; }
-    public int MaxDamage { get => maxDamage; }
-    public bool IsRanged { get => isRanged; }
-
-    private int GetRange()
-    {
-        if (isRanged) return int.MaxValue;
-        else return range;
-    }
 }

@@ -22,4 +22,5 @@ public class SkillSO : ScriptableObject
     public string SkillName { get => skillName; }
     public string Description { get => description; }
     public float Damage { get => damage; }
+    public virtual int Range => range;
 }

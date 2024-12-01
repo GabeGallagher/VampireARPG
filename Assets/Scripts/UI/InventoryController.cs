@@ -15,9 +15,9 @@ public class InventoryController : MonoBehaviour
     private List<ItemSO> itemsList = new List<ItemSO>();
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
-    private ItemSO mainHand;
+    private WeaponSO mainHand;
 
-    public ItemSO MainHand { get => mainHand; }
+    public WeaponSO MainHand { get => mainHand; }
 
     private void Awake()
     {
@@ -105,7 +105,7 @@ public class InventoryController : MonoBehaviour
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
                 GameObject weapon = Instantiate(itemSO.Prefab, rightHand);
                 mainHandSlot.ItemSO = itemSO;
-                mainHand = itemSO;
+                mainHand = (WeaponSO)itemSO;
 
                 // position coords are contained in the weapon folder in Prefabs/Items
                 Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);
