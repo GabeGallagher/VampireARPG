@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     private NavMeshAgent navMeshAgent;
     private Vector3 moveToPosition;
     private EPlayerState playerState = EPlayerState.Idle;
+    private PhysicalAttackSO skillInUse;
 
     private int maxHealth = 100;
     private int levelUpExperience = 10;
@@ -163,6 +164,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
             {
                 canMove = false;
                 PlayerState = EPlayerState.Attacking;
+                skillInUse = (PhysicalAttackSO)e.Skill;
                 animationController.TriggerAttack();
             }
         }
@@ -216,13 +218,24 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     public void SpawnDamageObject()
     {
-        Debug.Log("Dealing Damage");
+        GameObject damageObject = Instantiate(skillInUse.AttackObjectPrefab, transform, false);
+        PhysicalAttackSO damageSkill = skillInUse;
+        AttackController damageObjectController = damageObject.GetComponent<AttackController>();
+
+        damageObjectController.Skill = damageSkill;
+        damageObjectController.Radius = damageSkill.Range + MainHand.Range;
+        damageObjectController.Player = this;
+    }
+
+    public int CalcDamage(SkillSO damageSkill)
+    {
+        float damageFloat = ((MainHand.MinDamage + MainHand.MaxDamage) / 2) * damageSkill.Damage;
+        return (int)damageFloat;
     }
 
     // Checks if player is holding attacking key. If yes, launch new attack, if not, set player state back to idle
     public void FinishAttackAnimation()
     {
-        Debug.Log("Finish Attacking");
         canMove = true;
         PlayerState = EPlayerState.Idle;
     }

@@ -9,7 +9,7 @@ public class SkillSO : ScriptableObject
         Ranged,
         Magical,
         Passive,
-        Default
+        Null
     }
 
     [SerializeField] private Sprite icon;
@@ -17,10 +17,10 @@ public class SkillSO : ScriptableObject
     [SerializeField] private float damage;
     [SerializeField] private int range;
 
-    public virtual ESkillType SkillType => ESkillType.Default;
-    public Sprite Icon { get => icon; }
-    public string SkillName { get => skillName; }
-    public string Description { get => description; }
-    public float Damage { get => damage; }
+    public virtual ESkillType SkillType => ESkillType.Null;
+    public Sprite Icon => icon;
+    public string SkillName => skillName;
+    public string Description => description;
+    public float Damage => damage;
     public virtual int Range => range;
 }

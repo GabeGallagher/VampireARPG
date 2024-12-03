@@ -17,3 +17,6 @@ MonoBehaviour:
   description: Hit 'em with the pointy end
   damage: 1
   range: 1
+  atkObjPrefab: {fileID: 2274030730230610775, guid: 75a1e52b51f4e964bb5687a15574bda1,
+    type: 3}
+  attackAngle: 90
