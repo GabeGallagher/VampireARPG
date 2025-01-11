@@ -9,6 +9,16 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 {
+    public enum EEnemyState
+    {
+        Idle,
+        Moving, // Enemy is moving to attack range of target
+        Roaming, // Enemy is wandering aimlessley looking for targets
+        Attacking
+    }
+
+    public event Action<EEnemyState> OnEnemyStateChange;
+
     [SerializeField] private ItemSO itemSO;
     [SerializeField] private EnemySO enemySO;
     [SerializeField] private GameObject damageTextPrefab;
@@ -23,19 +33,32 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 
     private Transform player;
 
+    public EEnemyState state = EEnemyState.Roaming;
+
     private float idleTime = 5f; // seconds enemies should stay idle before roaming
-
     private float countingTime = 0f;
-
     private float roamingRange;
 
     private int health, maxHealth;
 
     private bool isRoaming = true;
-
+    private bool isMoving = false;
     private bool isAttacking = false;
-
     private bool isIdle = false;
+
+    public EEnemyState State
+    {
+        get => state;
+
+        set
+        {
+            if (state != value)
+            {
+                state = value;
+                OnEnemyStateChange?.Invoke(state);
+            }
+        }
+    }
 
     public bool IsRoaming
     {
@@ -46,6 +69,23 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             isRoaming = value;
             if (isRoaming)
             {
+                isMoving = false;
+                isAttacking = false;
+                isIdle = false;
+            }
+        }
+    }
+
+    public bool IsMoving
+    {
+        get => isMoving;
+
+        set
+        {
+            isMoving = value;
+            if(isMoving)
+            {
+                isRoaming = false;
                 isAttacking = false;
                 isIdle = false;
             }
@@ -62,6 +102,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             if (isAttacking)
             {
                 isRoaming = false;
+                isMoving = false;
                 isIdle = false;
             }
         }
@@ -76,6 +117,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             isIdle = value;
             if (isIdle)
             {
+                isMoving = false;
                 isAttacking = false;
                 isRoaming = false;
             }
@@ -101,7 +143,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer <= enemySO.AggroRange)
             {
-                IsAttacking = true;
+                State = EEnemyState.Moving;
                 targetPos = player.position;
                 agent.SetDestination(targetPos);
             }
@@ -111,16 +153,16 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             player = GameObject.FindWithTag("Player")?.transform;
         }
 
-        if (isRoaming)
+        if (State == EEnemyState.Roaming)
         {
             agent.SetDestination(targetPos);
 
             if (Vector3.Distance(transform.position, targetPos) < 0.5f)
             {
-                IsIdle = true;
+                State = EEnemyState.Idle;
             }
         }
-        else if (isIdle)
+        else if (State == EEnemyState.Idle)
         {
             countingTime += Time.deltaTime;
             if (countingTime >= idleTime)
@@ -131,13 +173,14 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
                 roamingCoroutine = StartCoroutine(GetRoamingTargetCoroutine(roamingRange, position => targetPos = position));
             }
         }
-        else if (isAttacking)
+        else if (State == EEnemyState.Moving)
         {
             countingTime = -idleTime; // When aggro is broken, enemy idle should double before it starts roam
 
             if (Vector3.Distance(transform.position, player.position) < enemySO.AttackRange)
             {
                 agent.isStopped = true;
+                State = EEnemyState.Attacking;
                 Debug.Log($"{transform.name} attacking player");
                 List<Transform> targets = new List<Transform>();
                 targets.Add(player);
@@ -146,13 +189,14 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             else
             {
                 agent.isStopped = false;
+                State = EEnemyState.Moving;
                 Debug.Log($"{transform.name} moving to attack player");
             }
 
             if (Vector3.Distance(transform.position, player.position) > enemySO.AggroRange)
             {
                 startingPos = transform.position;
-                IsIdle = true;
+                State = EEnemyState.Idle;
             }
         }
     }
@@ -168,7 +212,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             if (NavMesh.SamplePosition(roamingTarget, out NavMeshHit target, 2f, NavMesh.AllAreas))
             {
                 onTargetFound?.Invoke(target.position);
-                IsRoaming = true;
+                State = EEnemyState.Roaming;
                 yield break;
             }
             yield return new WaitForSeconds(0.1f);

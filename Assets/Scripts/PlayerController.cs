@@ -126,7 +126,6 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
     {
         if (!inputController.CanMove || !canMove)
         {
-            navMeshAgent.isStopped = true;
             StopMoving();
         }
         else
@@ -261,6 +260,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
     public void StopMoving()
     {
+        navMeshAgent.isStopped = true;
         moveToPosition = transform.position;
         PlayerState = EPlayerState.Idle;
     }
