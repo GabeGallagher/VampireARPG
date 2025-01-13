@@ -48,7 +48,9 @@ public class EnemyAnimationController : MonoBehaviour
                 break;
 
             default:
-                Debug.Log($"Invalid state selected: {enemy.state}"); break;
+                Debug.Log($"Invalid state selected: {enemy.state}");
+                Debug.Log("Felix is the German Supreme");
+                break;
         }
     }
 }
