@@ -177,14 +177,10 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
         {
             countingTime = -idleTime; // When aggro is broken, enemy idle should double before it starts roam
 
-            if (Vector3.Distance(transform.position, player.position) < enemySO.AttackRange)
+            if (Vector3.Distance(transform.position, player.position) < enemySO.AttackSO.AttackRange)
             {
                 agent.isStopped = true;
                 State = EEnemyState.Attacking;
-                Debug.Log($"{transform.name} attacking player");
-                List<Transform> targets = new List<Transform>();
-                targets.Add(player);
-                DealDamage(enemySO.Damage, targets);
             }
             else
             {
@@ -196,6 +192,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             if (Vector3.Distance(transform.position, player.position) > enemySO.AggroRange)
             {
                 startingPos = transform.position;
+                agent.isStopped = true;
                 State = EEnemyState.Idle;
             }
         }
@@ -213,6 +210,7 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             {
                 onTargetFound?.Invoke(target.position);
                 State = EEnemyState.Roaming;
+                agent.isStopped = false;
                 yield break;
             }
             yield return new WaitForSeconds(0.1f);
@@ -271,5 +269,16 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
                 target.GetComponent<IDamageable>().DamageReceived(damage, gameObject);
             }
         }
+    }
+
+    public void SpawnDamageCollider()
+    {
+        Instantiate(enemySO.AttackSO.AttackObjectPrefab, transform);
+        
+    }
+
+    public int CalcDamage(SkillSO damageSkill)
+    {
+        return (int)damageSkill.Damage;
     }
 }

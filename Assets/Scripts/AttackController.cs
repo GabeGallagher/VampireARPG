@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 #nullable enable
@@ -35,7 +36,25 @@ public class AttackController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Player"))
+        {
+            Vector3 directionToPlayer = (other.transform.position - transform.position).normalized;
+            float dotProduct = Vector3.Dot(transform.forward, directionToPlayer);
+            float minDotProduct = Mathf.Cos(skill.AttackAngle * 0.5f * Mathf.Deg2Rad);
+            Debug.Log($"mindDotProduct: {minDotProduct}");
+
+            if (dotProduct >= minDotProduct)
+            {
+                PlayerController player = other.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    Debug.Log($"{player.name} damaged");
+                    int damage = player.CalcDamage(skill); // this should be calcd off enemy
+                    player.DamageReceived(damage, playerController.gameObject); // swap player controller for enemy
+                }
+            }
+        }
+        else if (other.CompareTag("Enemy"))
         {
             Vector3 directionToEnemy = (other.transform.position - transform.position).normalized;
             float dotProduct = Vector3.Dot(transform.forward, directionToEnemy);

@@ -53,4 +53,9 @@ public class EnemyAnimationController : MonoBehaviour
                 break;
         }
     }
+
+    private void DealDamage()
+    {
+        enemy.SpawnDamageCollider();
+    }
 }

@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
 
         {
             WeaponSO weapon = inventoryController.MainHand;
-            float attackRange = MainHand.Range + e.Skill.Range;
+            float attackRange = MainHand.Range + e.Skill.AttackRange;
 
             if (distanceToEnemy <= attackRange || weapon.IsRanged)
             {
@@ -222,7 +222,7 @@ public class PlayerController : MonoBehaviour, IDamage, IDamageable
         AttackController damageObjectController = damageObject.GetComponent<AttackController>();
 
         damageObjectController.Skill = damageSkill;
-        damageObjectController.Radius = damageSkill.Range + MainHand.Range;
+        damageObjectController.Radius = damageSkill.AttackRange + MainHand.Range;
         damageObjectController.Player = this;
     }
 

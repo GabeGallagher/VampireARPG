@@ -16,6 +16,7 @@ MonoBehaviour:
   skillName: SkeletonAttack
   description: Skeleton basic attack
   damage: 3
-  range: 2
-  atkObjPrefab: {fileID: 0}
+  attackRange: 1
+  atkObjPrefab: {fileID: 2274030730230610775, guid: 7f788e55f3aece24987d08b8cf4e9128,
+    type: 3}
   attackAngle: 0

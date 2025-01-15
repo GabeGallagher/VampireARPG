@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7cba67825adad4b9f9497dcb29afd3, type: 3}
   m_Name: SkeletonSO
   m_EditorClassIdentifier: 
+  attackSO: {fileID: 11400000, guid: 256a2ae2f9824d2459613a883883a213, type: 2}
   speed: 1
   roamingRange: 5
   aggroRange: 8
-  attackRange: 3
-  damage: 0
