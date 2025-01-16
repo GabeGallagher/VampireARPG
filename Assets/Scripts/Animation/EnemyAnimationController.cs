@@ -20,7 +20,6 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void Enemy_OnEnemyStateChange(EnemyController.EEnemyState obj)
     {
-        Debug.Log($"Enemy state: {obj}");
         SetAnimationState(obj);
     }
 
@@ -49,7 +48,6 @@ public class EnemyAnimationController : MonoBehaviour
 
             default:
                 Debug.Log($"Invalid state selected: {enemy.state}");
-                Debug.Log("Felix is the German Supreme");
                 break;
         }
     }

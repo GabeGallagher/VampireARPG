@@ -19,9 +19,12 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 
     public event Action<EEnemyState> OnEnemyStateChange;
 
+    public Transform AttackPoint => attackPoint;
+
     [SerializeField] private ItemSO itemSO;
     [SerializeField] private EnemySO enemySO;
     [SerializeField] private GameObject damageTextPrefab;
+    [SerializeField] private Transform attackPoint;
 
     private Canvas canvas;
 
@@ -41,11 +44,6 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 
     private int health, maxHealth;
 
-    private bool isRoaming = true;
-    private bool isMoving = false;
-    private bool isAttacking = false;
-    private bool isIdle = false;
-
     public EEnemyState State
     {
         get => state;
@@ -56,70 +54,6 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             {
                 state = value;
                 OnEnemyStateChange?.Invoke(state);
-            }
-        }
-    }
-
-    public bool IsRoaming
-    {
-        get => isRoaming;
-
-        set
-        {
-            isRoaming = value;
-            if (isRoaming)
-            {
-                isMoving = false;
-                isAttacking = false;
-                isIdle = false;
-            }
-        }
-    }
-
-    public bool IsMoving
-    {
-        get => isMoving;
-
-        set
-        {
-            isMoving = value;
-            if(isMoving)
-            {
-                isRoaming = false;
-                isAttacking = false;
-                isIdle = false;
-            }
-        }
-    }
-
-    public bool IsAttacking
-    {
-        get => isAttacking;
-
-        set
-        {
-            isAttacking = value;
-            if (isAttacking)
-            {
-                isRoaming = false;
-                isMoving = false;
-                isIdle = false;
-            }
-        }
-    }
-
-    public bool IsIdle
-    {
-        get => isIdle;
-
-        set
-        {
-            isIdle = value;
-            if (isIdle)
-            {
-                isMoving = false;
-                isAttacking = false;
-                isRoaming = false;
             }
         }
     }
@@ -186,7 +120,6 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
             {
                 agent.isStopped = false;
                 State = EEnemyState.Moving;
-                Debug.Log($"{transform.name} moving to attack player");
             }
 
             if (Vector3.Distance(transform.position, player.position) > enemySO.AggroRange)
@@ -273,8 +206,9 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 
     public void SpawnDamageCollider()
     {
-        Instantiate(enemySO.AttackSO.AttackObjectPrefab, transform);
-        
+        GameObject attackCollider = Instantiate(enemySO.AttackSO.AttackObjectPrefab);
+        attackCollider.GetComponent<AttackController>().Origin = attackPoint;
+        attackCollider.GetComponent<AttackController>().Start();
     }
 
     public int CalcDamage(SkillSO damageSkill)

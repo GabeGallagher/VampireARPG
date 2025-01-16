@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
+    private Transform origin;
     private PlayerController playerController;
     private SphereCollider collider;
     private PhysicalAttackSO skill;
     private float radius, timeLive;
-
+    
+    public Transform Origin { set => origin = value; }
     public PlayerController Player { set => playerController = value; }
     public PhysicalAttackSO Skill { get => skill; set => skill = value; }
     public float Radius { set => radius = SetRadius(value); }
@@ -17,6 +19,11 @@ public class AttackController : MonoBehaviour
     private void Awake()
     {
         collider = GetComponent<SphereCollider>();
+    }
+
+    public void Start()
+    {
+        transform.position = origin.position;
     }
 
     private void Update()
@@ -36,6 +43,7 @@ public class AttackController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"Attacked: {other.name}");
         if (other.CompareTag("Player"))
         {
             Vector3 directionToPlayer = (other.transform.position - transform.position).normalized;

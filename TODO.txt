@@ -1,0 +1,16 @@
+Refactor AttackController.OnTriggerEnter to properly collide with the object being attacked, not the attacker
+
+AttackController also needs to be refactored away from using a player/enemy paradigm and rather use attacker 
+and target, with players, enemies, and projectiles all able to fill both roles
+
+Refactor Player Controller to handle AttackController and attacking points. This may have to come from the 
+weapon end or the player character's hand for physical attacks, not sure which yet.
+
+Refactor bother Player and Enemy characters to face their target when attacking. They shouldn't move in
+between attacks, so there needs to be some checking on the PlayerController if the player will attack again
+
+There are several warnings for nullable variables. Fix these classes and add #nullable enable to classes that 
+don't already have it
+
+Implement projectiles into the game. This can be done by adding the Berserker's basic throwing attack. Should 
+not be done until all other refactors are complete.

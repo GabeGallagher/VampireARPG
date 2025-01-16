@@ -1604,7 +1604,7 @@ PrefabInstance:
     - target: {fileID: 1067087564104314898, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.08
+      value: 2.213
       objectReference: {fileID: 0}
     - target: {fileID: 1067087564104314898, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
@@ -1614,7 +1614,7 @@ PrefabInstance:
     - target: {fileID: 1067087564104314898, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.77
+      value: 1.682
       objectReference: {fileID: 0}
     - target: {fileID: 1067087564104314898, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
@@ -1662,6 +1662,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f85fc20f1695e66479d56560b3ae0a10,
         type: 2}
+    - target: {fileID: 5119419160402645065, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
+        type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 415191557}
     - target: {fileID: 5629251832535507594, guid: 8c0c2dc52498ed54f9a2b0ab60074179,
         type: 3}
       propertyPath: m_Radius
@@ -3978,6 +3983,12 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!4 &415191557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7140886278335715396, guid: 15f1b724e0139c5428bff76a4ad9bffe,
+    type: 3}
+  m_PrefabInstance: {fileID: 758337740}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &424103077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12292,6 +12303,8 @@ GameObject:
   - component: {fileID: 1623352610}
   - component: {fileID: 1623352611}
   - component: {fileID: 1623352612}
+  - component: {fileID: 1623352613}
+  - component: {fileID: 1623352614}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -12370,6 +12383,56 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!136 &1623352613
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623352609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &1623352614
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623352609}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &1627373369
 PrefabInstance:
   m_ObjectHideFlags: 0

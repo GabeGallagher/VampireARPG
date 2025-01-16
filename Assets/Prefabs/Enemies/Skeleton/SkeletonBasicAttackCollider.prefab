@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5382663623044261641}
   - component: {fileID: -5733622323415173942}
   m_Layer: 0
-  m_Name: SkeletonBasicAttack
+  m_Name: SkeletonBasicAttackCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
