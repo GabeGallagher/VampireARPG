@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
+public class EnemyController : MonoBehaviour, IDealDamage, IDamageable, ILootable
 {
     public enum EEnemyState
     {
@@ -206,13 +206,16 @@ public class EnemyController : MonoBehaviour, IDamage, IDamageable, ILootable
 
     public void SpawnDamageCollider()
     {
-        GameObject attackCollider = Instantiate(enemySO.AttackSO.AttackObjectPrefab);
-        attackCollider.GetComponent<AttackController>().Origin = attackPoint;
-        attackCollider.GetComponent<AttackController>().Start();
+        GameObject attackColliderObject = Instantiate(enemySO.AttackSO.AttackObjectPrefab);
+        AttackController attackController = attackColliderObject.GetComponent<AttackController>();
+        attackController.Attacker = transform;
+        attackController.Origin = attackPoint;
+        attackController.Skill = enemySO.AttackSO;
+        attackController.Start();
     }
 
     public int CalcDamage(SkillSO damageSkill)
     {
-        return (int)damageSkill.Damage;
+        return (int)(enemySO.Damage * damageSkill.Damage);
     }
 }

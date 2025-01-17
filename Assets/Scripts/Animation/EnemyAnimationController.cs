@@ -52,7 +52,7 @@ public class EnemyAnimationController : MonoBehaviour
         }
     }
 
-    private void DealDamage()
+    private void SpawnDamageCollider()
     {
         enemy.SpawnDamageCollider();
     }

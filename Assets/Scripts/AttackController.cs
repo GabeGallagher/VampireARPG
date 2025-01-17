@@ -5,16 +5,21 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    private Transform origin;
-    private PlayerController playerController;
+    private Transform origin, attacker;
+    private PlayerController? playerController;
+    private EnemyController? enemyController;
     private SphereCollider collider;
-    private PhysicalAttackSO skill;
+    private SkillSO skill;
+
     private float radius, timeLive;
-    
+    private int damage;
+
     public Transform Origin { set => origin = value; }
+    public Transform Attacker { set => attacker = value; }
     public PlayerController Player { set => playerController = value; }
-    public PhysicalAttackSO Skill { get => skill; set => skill = value; }
+    public SkillSO Skill { get => skill; set => skill = value; }
     public float Radius { set => radius = SetRadius(value); }
+    public int Damage { set =>  damage = value; }
 
     private void Awake()
     {
@@ -24,6 +29,23 @@ public class AttackController : MonoBehaviour
     public void Start()
     {
         transform.position = origin.position;
+        SetAttackerController();
+    }
+
+    private void SetAttackerController()
+    {
+        if (attacker.GetComponent<EnemyController>() != null)
+        {
+            enemyController = attacker.GetComponent<EnemyController>();
+        }
+        else if (attacker.GetComponent<PlayerController>() != null)
+        {
+            playerController = attacker.GetComponent<PlayerController>();
+        }
+        else
+        {
+            Debug.LogError($"Invalid attacker: {attacker.name}");
+        }
     }
 
     private void Update()
@@ -41,42 +63,51 @@ public class AttackController : MonoBehaviour
         return radius;
     }
 
+    private void DealDamage(Collider target)
+    {
+        IDamageable damageableTarget = target.GetComponent<IDamageable>();
+        if (damageableTarget == null)
+        {
+            Debug.Log($"No IDamageable component retrieved: {target.name}"); return;
+        }
+
+        IDealDamage attacker = enemyController != null ?
+            (IDealDamage)enemyController :
+            (IDealDamage)playerController;
+
+        Debug.Log($"{target.name} damaged");
+        int damage = attacker.CalcDamage(skill);
+        damageableTarget.DamageReceived(damage, attacker is EnemyController ?
+            enemyController.gameObject :
+            playerController.gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Attacked: {other.name}");
-        if (other.CompareTag("Player"))
-        {
-            Vector3 directionToPlayer = (other.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, directionToPlayer);
-            float minDotProduct = Mathf.Cos(skill.AttackAngle * 0.5f * Mathf.Deg2Rad);
-            Debug.Log($"mindDotProduct: {minDotProduct}");
+        Debug.Log($"{attacker.name} Attacked: {other.name}");
 
-            if (dotProduct >= minDotProduct)
+        if (other.name != attacker.name)
+        {
+            if (skill.AttackAngle != 0) // Splash damage attacks
             {
-                PlayerController player = other.GetComponent<PlayerController>();
-                if (player != null)
+                Vector3 directionToTarget = (other.transform.position - transform.position).normalized;
+                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
+                float minDotProduct = 0;
+
+                if (skill.AttackAngle != 0)
                 {
-                    Debug.Log($"{player.name} damaged");
-                    int damage = player.CalcDamage(skill); // this should be calcd off enemy
-                    player.DamageReceived(damage, playerController.gameObject); // swap player controller for enemy
+                    minDotProduct = Mathf.Cos(skill.AttackAngle * 0.5f * Mathf.Deg2Rad);
+                }
+                Debug.Log($"minDotProduct: {minDotProduct}");
+
+                if (dotProduct >= minDotProduct)
+                {
+                    DealDamage(other);
                 }
             }
-        }
-        else if (other.CompareTag("Enemy"))
-        {
-            Vector3 directionToEnemy = (other.transform.position - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, directionToEnemy);
-            float minDotProduct = Mathf.Cos(skill.AttackAngle * 0.5f * Mathf.Deg2Rad);
-
-            if (dotProduct >= minDotProduct)
+            else
             {
-                EnemyController enemy = other.GetComponent<EnemyController>();
-                if (enemy != null)
-                {
-                    Debug.Log($"{enemy.name} damaged");
-                    int damage = playerController.CalcDamage(skill);
-                    enemy.DamageReceived(damage, playerController.gameObject);
-                }
+                DealDamage(other);
             }
         }
     }

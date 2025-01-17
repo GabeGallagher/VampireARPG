@@ -8,7 +8,7 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class PlayerController : MonoBehaviour, IDamage, IDamageable
+public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 {
     public List<SkillSO> learnedSkills;
     public int strength, agility, intelligence, vitality;
