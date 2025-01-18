@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
     private NavMeshAgent navMeshAgent;
     private Vector3 moveToPosition;
     private EPlayerState playerState = EPlayerState.Idle;
-    private PhysicalAttackSO skillInUse;
+    private SkillSO skillInUse;
 
     private int maxHealth = 100;
     private int levelUpExperience = 10;
@@ -217,13 +217,14 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     public void SpawnDamageObject()
     {
-        GameObject damageObject = Instantiate(skillInUse.AttackObjectPrefab, transform, false);
-        PhysicalAttackSO damageSkill = skillInUse;
-        AttackController damageObjectController = damageObject.GetComponent<AttackController>();
+        GameObject attackColliderObject = Instantiate(skillInUse.AttackObjectPrefab);
+        AttackController attackController = attackColliderObject.GetComponent<AttackController>();
 
-        damageObjectController.Skill = damageSkill;
-        damageObjectController.Radius = damageSkill.AttackRange + MainHand.Range;
-        damageObjectController.Player = this;
+        attackController.Attacker = transform;
+        attackController.Skill = skillInUse;
+        attackController.Radius = skillInUse.AttackRange + MainHand.Range;
+
+        attackController.Start();
     }
 
     public int CalcDamage(SkillSO damageSkill)

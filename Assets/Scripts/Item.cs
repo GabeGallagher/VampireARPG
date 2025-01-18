@@ -6,5 +6,5 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private ItemSO itemSO;
 
-    public ItemSO ItemSO { get => itemSO; }
+    public ItemSO ItemSO => itemSO;
 }
