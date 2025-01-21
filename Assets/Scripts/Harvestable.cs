@@ -1,21 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
-public class Harvestable : Item, IDamageable
+#nullable enable
+
+public class Harvestable : MonoBehaviour, IDamageable
 {
-    [SerializeField] GameObject damageTextPrefab;
-
-    [SerializeField] HarvestableSO harvestableSO;
-
-    [SerializeField] int health = 100;
+    [SerializeField] private GameObject damageTextPrefab;
+    [SerializeField] private HarvestableSO harvestableSO;
+    [SerializeField] private int health = 100;
 
     private Canvas canvas;
 
     private void Start()
     {
-        canvas = FindObjectOfType<Canvas>();
+        try
+        {
+            canvas = FindObjectOfType<Canvas>();
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError($"Canvas object not found: {e.ToString()}");
+        }
     }
 
     public void DamageReceived(int damageReceived, GameObject damageFrom)

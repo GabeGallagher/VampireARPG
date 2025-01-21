@@ -23,7 +23,7 @@ public class Item : MonoBehaviour
 
     private void Awake()
     {
-        SetData();
+        itemData = SetData();
     }
 
     protected virtual ItemData SetData()

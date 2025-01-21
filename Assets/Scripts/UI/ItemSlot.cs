@@ -6,11 +6,9 @@ using UnityEngine.UI;
 public class ItemSlot : MonoBehaviour
 {
     [SerializeField] private GameObject inventorySprite;
-
     [SerializeField] private ItemData itemData;
 
     public GameObject InventorySprite { get => inventorySprite;}
-
     public ItemData ItemData { get => itemData; set => SetItem(value); }
 
     private void SetItem(ItemData itemData)

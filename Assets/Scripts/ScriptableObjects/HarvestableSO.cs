@@ -1,5 +1,7 @@
 using UnityEngine;
 
+#nullable enable
+
 [CreateAssetMenu()]
 public class HarvestableSO : ItemSO
 {
@@ -11,5 +13,5 @@ public class HarvestableSO : ItemSO
 
     [SerializeField] private EHarvestableType harvestableType;
 
-    public EHarvestableType HarvestableType { get => harvestableType; }
+    public EHarvestableType HarvestableType => harvestableType;
 }

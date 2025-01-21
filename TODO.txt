@@ -1,9 +1,3 @@
-The below refactor currently broke the interaction with harvestables (like trees). Fix that problem before moving on from below
-refactor
-
-Refactor Inventory System to handle a weapon gamebject instead of a SO. This is a necessary change to store
-variable weapon mods
-
 Refactor Player Controller to handle AttackController and attacking points. This may have to come from the 
 weapon end or the player character's hand for physical attacks, not sure which yet.
 
