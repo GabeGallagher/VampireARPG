@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     public PhysicalAttackSO Attack { get => attack; }
     public InventoryController InventoryController { get => inventoryController; }
-    public WeaponSO MainHand => inventoryController.MainHand;
+    public WeaponData MainHand => inventoryController.MainHand;
     public SkillSO BasicAttackSkill => basicAttackSkill;
 
     public int MaxHealth { get => maxHealth; }
@@ -154,12 +154,11 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
         float distanceToEnemy = Vector3.Distance(transform.position, e.TargetTransform.position);
 
         if (inventoryController.MainHand != null) // Need to refactor if punches are allowed
-
         {
-            WeaponSO weapon = inventoryController.MainHand;
-            float attackRange = MainHand.Range + e.Skill.AttackRange;
+            WeaponData weapon = inventoryController.MainHand;
+            float attackRange = MainHand.WeaponSO.Range + e.Skill.AttackRange;
 
-            if (distanceToEnemy <= attackRange || weapon.IsRanged)
+            if (distanceToEnemy <= attackRange || weapon.WeaponSO.IsRanged)
             {
                 canMove = false;
                 PlayerState = EPlayerState.Attacking;
@@ -200,7 +199,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     private int CalcPhysicalDamage(PhysicalAttackSO skill)
     {
-        int weaponDmg = (int)Random.Range(inventoryController.MainHand.MinDamage, inventoryController.MainHand.MaxDamage);
+        int weaponDmg = (int)Random.Range(inventoryController.MainHand.WeaponSO.MinDamage, inventoryController.MainHand.WeaponSO.MaxDamage);
         return (int)(weaponDmg * skill.Damage * (strength / 100));
     }
 
@@ -215,21 +214,22 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
         }
     }
 
-    public void SpawnDamageObject()
+    public void SpawnDamageCollider()
     {
         GameObject attackColliderObject = Instantiate(skillInUse.AttackObjectPrefab);
         AttackController attackController = attackColliderObject.GetComponent<AttackController>();
 
         attackController.Attacker = transform;
         attackController.Skill = skillInUse;
-        attackController.Radius = skillInUse.AttackRange + MainHand.Range;
+        attackController.Radius = skillInUse.AttackRange + MainHand.WeaponSO.Range;
+        //attackController.Origin = 
 
         attackController.Start();
     }
 
     public int CalcDamage(SkillSO damageSkill)
     {
-        float damageFloat = ((MainHand.MinDamage + MainHand.MaxDamage) / 2) * damageSkill.Damage;
+        float damageFloat = ((MainHand.WeaponSO.MinDamage + MainHand.WeaponSO.MaxDamage) / 2) * damageSkill.Damage;
         return (int)damageFloat;
     }
 
@@ -268,14 +268,14 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     public void PickUp(Item item)
     {
-        inventoryController.AddItem(item.ItemSO);
+        inventoryController.AddItem(item);
 
         Destroy(item.gameObject);
     }
 
     public void HarvestResource(int resourceCount, HarvestableSO harvestableSO)
     {
-        inventoryController.AddItem(harvestableSO);
+        inventoryController.AddHarvestable(harvestableSO);
     }
 
     public void DamageReceived(int damageReceived, GameObject damageFrom)
@@ -311,7 +311,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
     public float GetAttackingRange()
     {
         if (inventoryController.MainHand == null) return 1f;
-        else if (inventoryController.MainHand.IsRanged) return Mathf.Infinity;
-        return inventoryController.MainHand.Range;
+        else if (inventoryController.MainHand.WeaponSO.IsRanged) return Mathf.Infinity;
+        return inventoryController.MainHand.WeaponSO.Range;
     }
 }

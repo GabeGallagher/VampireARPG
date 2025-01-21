@@ -76,7 +76,7 @@ public class AnimationController : MonoBehaviour
 
     public void TriggerAttack()
     {
-        animator.SetBool("IsTwoHanded", player.MainHand.IsTwoHanded);
+        animator.SetBool("IsTwoHanded", player.MainHand.WeaponSO.IsTwoHanded);
         animator.SetTrigger(triggerAttack);
     }
 }

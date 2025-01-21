@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Harvestable : MonoBehaviour, IDamageable
+public class Harvestable : Item, IDamageable
 {
     [SerializeField] GameObject damageTextPrefab;
 

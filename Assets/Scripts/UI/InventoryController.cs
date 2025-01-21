@@ -12,12 +12,12 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private Transform rightHand, leftHand;
     [SerializeField] private InputController inputController;
 
-    private List<ItemSO> itemsList = new List<ItemSO>();
+    private List<ItemData> itemsList = new List<ItemData>();
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
-    private WeaponSO mainHand;
+    private WeaponData mainHand;
 
-    public WeaponSO MainHand { get => mainHand; }
+    public WeaponData MainHand { get => mainHand; }
 
     private void Awake()
     {
@@ -35,23 +35,27 @@ public class InventoryController : MonoBehaviour
         HandleItemClick();
     }
 
-    public void AddItem(ItemSO itemSO)
+    public void AddItem(Item item)
     {
-        itemsList.Add(itemSO);
-
+        itemsList.Add(item.ItemData);
         UpdateStash();
     }
 
-    public void RemoveItem(ItemSO itemSO)
+    public void AddHarvestable(HarvestableSO harvestableSO)
     {
-        itemsList.Remove(itemSO);
+
+    }
+
+    public void RemoveItem(ItemData itemData)
+    {
+        itemsList.Remove(itemData);
 
         UpdateStash();
     }
 
     private void UpdateStash()
     {
-        foreach (ItemSO itemSO in itemsList)
+        foreach (ItemData itemData in itemsList)
         {
             for (int i = 0; i < itemStash.childCount; i++)
             {
@@ -61,9 +65,9 @@ public class InventoryController : MonoBehaviour
 
                     ItemSlot itemSlot = itemSlotTransform.GetComponent<ItemSlot>();
 
-                    if (itemSlot.ItemSO == null)
+                    if (itemSlot.ItemData == null)
                     {
-                        itemSlot.ItemSO = itemSO;
+                        itemSlot.ItemData = itemData;
                         i = itemStash.childCount;
                         break;
                     }
@@ -90,22 +94,22 @@ public class InventoryController : MonoBehaviour
             {
                 itemSlot.ClearSprite();
 
-                EquipItem(itemSlot.ItemSO); break;
+                EquipItem(itemSlot.ItemData); break;
             }
         }
     }
 
-    private void EquipItem(ItemSO itemSO)
+    private void EquipItem(ItemData itemData)
     {
-        Debug.Log($"Clicked on {itemSO.ItemName}");
+        Debug.Log($"Clicked on {itemData.Name}");
 
-        switch (itemSO.ItemType)
+        switch (itemData.ItemType)
         {
-            case ItemSO.EItemType.Weapon:
+            case EItemType.Weapon:
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
-                GameObject weapon = Instantiate(itemSO.Prefab, rightHand);
-                mainHandSlot.ItemSO = itemSO;
-                mainHand = (WeaponSO)itemSO;
+                GameObject weapon = Instantiate(itemData.ItemSO.Prefab, rightHand);
+                mainHandSlot.ItemData = itemData;
+                mainHand = (WeaponData)itemData;
 
                 // position coords are contained in the weapon folder in Prefabs/Items
                 Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);
@@ -113,11 +117,11 @@ public class InventoryController : MonoBehaviour
                 weapon.transform.localPosition = localPosition;
                 weapon.transform.localRotation = localRotation;
 
-                RemoveItem(itemSO);
+                RemoveItem(itemData);
                 break;
 
             default:
-                Debug.LogError($"{itemSO.ItemType} not found");
+                Debug.LogError($"{itemData.ItemType} not found");
                 break;
         }
     }

@@ -7,17 +7,17 @@ public class ItemSlot : MonoBehaviour
 {
     [SerializeField] private GameObject inventorySprite;
 
-    [SerializeField] private ItemSO itemSO;
+    [SerializeField] private ItemData itemData;
 
     public GameObject InventorySprite { get => inventorySprite;}
 
-    public ItemSO ItemSO { get => itemSO; set => SetItem(value); }
+    public ItemData ItemData { get => itemData; set => SetItem(value); }
 
-    private void SetItem(ItemSO itemSO)
+    private void SetItem(ItemData itemData)
     {
-        this.itemSO = itemSO;
+        this.itemData = itemData;
 
-        SetSprite(itemSO.Sprite);
+        SetSprite(itemData.Sprite);
     }
 
     public void SetSprite(Sprite newItemSprite)

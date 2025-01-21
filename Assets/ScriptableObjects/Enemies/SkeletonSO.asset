@@ -16,3 +16,4 @@ MonoBehaviour:
   speed: 1
   roamingRange: 5
   aggroRange: 8
+  damage: 1
