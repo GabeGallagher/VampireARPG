@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
     [SerializeField] private AnimationController animationController;
     [SerializeField] private GameObject damageTextPrefab;
     [SerializeField] private SkillSO basicAttackSkill;
+    [SerializeField] private Weapon mainHand;
+    [SerializeField] private Transform attackOrigin;
 
     [SerializeField] private float distanceToMoveThreshold = 0.05f;
 
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     public PhysicalAttackSO Attack { get => attack; }
     public InventoryController InventoryController { get => inventoryController; }
-    public WeaponData MainHand => inventoryController.MainHand;
+    public Weapon MainHand { get => mainHand; set => mainHand = value; }
     public SkillSO BasicAttackSkill => basicAttackSkill;
 
     public int MaxHealth { get => maxHealth; }
@@ -161,6 +163,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
             if (distanceToEnemy <= attackRange || weapon.WeaponSO.IsRanged)
             {
                 canMove = false;
+                transform.LookAt(e.TargetTransform);
                 PlayerState = EPlayerState.Attacking;
                 skillInUse = (PhysicalAttackSO)e.Skill;
                 animationController.TriggerAttack();
@@ -222,7 +225,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
         attackController.Attacker = transform;
         attackController.Skill = skillInUse;
         attackController.Radius = skillInUse.AttackRange + MainHand.WeaponSO.Range;
-        //attackController.Origin = 
+        attackController.Origin = MainHand.DamageOrigin;
 
         attackController.Start();
     }

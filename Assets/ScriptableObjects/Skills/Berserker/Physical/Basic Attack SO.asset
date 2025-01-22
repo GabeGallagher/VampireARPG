@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd91705b619e5454db909d43c2696b9b, type: 3}
   m_Name: Basic Attack SO
   m_EditorClassIdentifier: 
+  atkObjPrefab: {fileID: 2274030730230610775, guid: 75a1e52b51f4e964bb5687a15574bda1,
+    type: 3}
   icon: {fileID: 21300000, guid: 2f4abb19fa8a33245ac4212936ef1872, type: 3}
   skillName: Basic Attack
   description: Hit 'em with the pointy end
   damage: 1
-  range: 1
-  atkObjPrefab: {fileID: 2274030730230610775, guid: 75a1e52b51f4e964bb5687a15574bda1,
-    type: 3}
+  attackRange: 1
   attackAngle: 90

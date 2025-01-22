@@ -1,8 +1,5 @@
-Refactor Player Controller to handle AttackController and attacking points. This may have to come from the 
-weapon end or the player character's hand for physical attacks, not sure which yet.
-
-Refactor bother Player and Enemy characters to face their target when attacking. They shouldn't move in
-between attacks, so there needs to be some checking on the PlayerController if the player will attack again
+I refactored the inventory controller to now equip the weapon object to the player. This is causing a bug with the transform of the
+weapon objects relative to the character holding them, as well as a few null reference exceptions. Fix these before moving on.
 
 There are several warnings for nullable variables. Fix these classes and add #nullable enable to classes that 
 don't already have it

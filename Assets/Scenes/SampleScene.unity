@@ -3325,7 +3325,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.47185794, y: 0.000000018465748, z: -0.000000009882568, w: 0.88167465}
-  m_LocalPosition: {x: 0, y: 15, z: -10}
+  m_LocalPosition: {x: -15.85, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6266,11 +6266,11 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.99303865
+  m_Radius: 1
   m_Height: 14.742584
   m_Direction: 1
   m_Center: {x: -0.077427864, y: 7.371292, z: -0.30755773}
@@ -6286,11 +6286,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25c4b726ce3729140b7029073bc5b333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 0}
   damageTextPrefab: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
     type: 3}
   harvestableSO: {fileID: 11400000, guid: 183d09e675b52e042b6057524c9c8606, type: 2}
   health: 100
+--- !u!54 &807624318
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807624307}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &814010021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7207,7 +7233,7 @@ PrefabInstance:
     - target: {fileID: 493107263520691647, guid: a56610e7ccbc6ce4ab156259a9864eb3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -13.14
       objectReference: {fileID: 0}
     - target: {fileID: 493107263520691647, guid: a56610e7ccbc6ce4ab156259a9864eb3,
         type: 3}
@@ -7217,7 +7243,7 @@ PrefabInstance:
     - target: {fileID: 493107263520691647, guid: a56610e7ccbc6ce4ab156259a9864eb3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.56
+      value: 2.53
       objectReference: {fileID: 0}
     - target: {fileID: 493107263520691647, guid: a56610e7ccbc6ce4ab156259a9864eb3,
         type: 3}
@@ -12321,14 +12347,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623352609}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -15.85, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 950505489}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &1623352611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12357,6 +12383,7 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 6668525308178151059, guid: 787f11c102907d04e955b385ea284ca4,
     type: 3}
   basicAttackSkill: {fileID: 11400000, guid: aee0bc9d88b356f4ba0b5b435465747f, type: 2}
+  attackOrigin: {fileID: 43961688}
   distanceToMoveThreshold: 0.025
   pickupRange: 4
   currentHealth: 100
@@ -13382,7 +13409,7 @@ Transform:
   m_GameObject: {fileID: 1735210561}
   serializedVersion: 2
   m_LocalRotation: {x: 0.47185794, y: 0.000000018465748, z: -0.000000009882568, w: 0.88167465}
-  m_LocalPosition: {x: 0, y: 15, z: -10}
+  m_LocalPosition: {x: -15.85, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17074,6 +17101,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 807624313}
+    - targetCorrespondingSourceObject: {fileID: 3685602042883279483, guid: 22087dff3945f304db42cd08f7e51dd8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 807624318}
   m_SourcePrefab: {fileID: 100100000, guid: 22087dff3945f304db42cd08f7e51dd8, type: 3}
 --- !u!1001 &8817125806602092004
 PrefabInstance:

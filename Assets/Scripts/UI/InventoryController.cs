@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class InventoryController : MonoBehaviour
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
     private WeaponData mainHand;
+    private PlayerController player;
 
     public WeaponData MainHand { get => mainHand; }
 
@@ -28,6 +30,14 @@ public class InventoryController : MonoBehaviour
     private void Start()
     {
         inputController.OnEquipPerformed += InputController_OnEquipPerformed;
+        try
+        {
+            player = GetComponent<PlayerController>();
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError($"Player not found: {e.Message}");
+        }
     }
 
     private void InputController_OnEquipPerformed(object sender, System.EventArgs e)
@@ -107,11 +117,13 @@ public class InventoryController : MonoBehaviour
         {
             case EItemType.Weapon:
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
-                GameObject weapon = Instantiate(itemData.ItemSO.Prefab, rightHand);
+                GameObject weaponObject = Instantiate(itemData.ItemSO.Prefab, rightHand);
+                Weapon weapon = weaponObject.GetComponent<Weapon>();
+                player.MainHand = weapon;
                 mainHandSlot.ItemData = itemData;
                 mainHand = (WeaponData)itemData;
 
-                // position coords are contained in the weapon folder in Prefabs/Items
+                // Fix this. The local transform should allow for the refactored game object to fit in the character's hand and look good relative to that character/animation. Shouldn't need to hardcode transforms anymore.
                 Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);
                 Quaternion localRotation = Quaternion.Euler(15.177f, -106.1f, 101.719f);
                 weapon.transform.localPosition = localPosition;

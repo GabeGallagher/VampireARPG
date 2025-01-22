@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,23 @@ public class AnimationController : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        player = transform.parent.GetComponent<PlayerController>();
+        try
+        {
+            player = transform.parent.GetComponent<PlayerController>();
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError($"Player controller not found on parent of {gameObject.name}: {e.Message}");
+        }
+
+        try
+        {
+            animator = GetComponent<Animator>();
+        }
+        catch (NullReferenceException e)
+        {
+            Debug.LogError($"Animator not found on {gameObject.name}: {e.Message}");
+        }
     }
 
     private void Start()
@@ -78,5 +94,10 @@ public class AnimationController : MonoBehaviour
     {
         animator.SetBool("IsTwoHanded", player.MainHand.WeaponSO.IsTwoHanded);
         animator.SetTrigger(triggerAttack);
+    }
+
+    private void SpawnDamageCollider()
+    {
+        player.SpawnDamageCollider();
     }
 }

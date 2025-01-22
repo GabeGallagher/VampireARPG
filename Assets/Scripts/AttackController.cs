@@ -28,7 +28,14 @@ public class AttackController : MonoBehaviour
 
     public void Start()
     {
-        transform.position = origin.position;
+        if (origin.position == null)
+        {
+            Debug.LogError($"Origin of {gameObject.name} not found");
+        }
+        else
+        {
+            transform.position = origin.position;
+        }
         SetAttackerController();
     }
 
@@ -88,27 +95,7 @@ public class AttackController : MonoBehaviour
 
         if (other.name != attacker.name)
         {
-            if (skill.AttackAngle != 0) // Splash damage attacks
-            {
-                Vector3 directionToTarget = (other.transform.position - transform.position).normalized;
-                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
-                float minDotProduct = 0;
-
-                if (skill.AttackAngle != 0)
-                {
-                    minDotProduct = Mathf.Cos(skill.AttackAngle * 0.5f * Mathf.Deg2Rad);
-                }
-                Debug.Log($"minDotProduct: {minDotProduct}");
-
-                if (dotProduct >= minDotProduct)
-                {
-                    DealDamage(other);
-                }
-            }
-            else
-            {
-                DealDamage(other);
-            }
+            DealDamage(other);
         }
     }
 }

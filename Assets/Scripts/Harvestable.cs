@@ -20,7 +20,7 @@ public class Harvestable : MonoBehaviour, IDamageable
         }
         catch (NullReferenceException e)
         {
-            Debug.LogError($"Canvas object not found: {e.ToString()}");
+            Debug.LogError($"{gameObject.name} could not find canvas: {e.ToString()}");
         }
     }
 

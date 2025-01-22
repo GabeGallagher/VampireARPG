@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Weapon : Item
 {
+    [SerializeField] private Transform damageOrigin;
+
     private WeaponData weaponData;
 
-    public ItemSO WeaponSO => ItemSO;
+    public WeaponSO WeaponSO => (WeaponSO)ItemSO;
     public ItemData WeaponData => weaponData;
+    public Transform DamageOrigin => damageOrigin;
 
     protected override ItemData SetData()
     {
