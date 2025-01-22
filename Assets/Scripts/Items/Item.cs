@@ -34,4 +34,10 @@ public class Item : MonoBehaviour
         }
         return itemData;
     }
+
+    public void ResetTransform()
+    {
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+    }
 }

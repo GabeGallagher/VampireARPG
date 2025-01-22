@@ -1,5 +1,4 @@
-I refactored the inventory controller to now equip the weapon object to the player. This is causing a bug with the transform of the
-weapon objects relative to the character holding them, as well as a few null reference exceptions. Fix these before moving on.
+New item code breaks the attacking sequence. Must fix
 
 There are several warnings for nullable variables. Fix these classes and add #nullable enable to classes that 
 don't already have it

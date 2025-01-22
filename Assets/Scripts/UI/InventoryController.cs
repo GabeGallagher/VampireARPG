@@ -8,9 +8,7 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    [SerializeField] private Transform itemStash;
-    [SerializeField] private Transform equipped;
-    [SerializeField] private Transform rightHand, leftHand;
+    [SerializeField] private Transform itemStash, equipped, rightHandSockets, leftHandSockets;
     [SerializeField] private InputController inputController;
 
     private List<ItemData> itemsList = new List<ItemData>();
@@ -18,26 +16,22 @@ public class InventoryController : MonoBehaviour
     private EventSystem eventSystem;
     private WeaponData mainHand;
     private PlayerController player;
+    private Transform rightHand, leftHand;
 
     public WeaponData MainHand { get => mainHand; }
 
     private void Awake()
     {
         graphicRaycaster = GetComponentInParent<Canvas>().GetComponent<GraphicRaycaster>();
-
-        gameObject.SetActive(false);
+        rightHand = rightHandSockets.parent;
+        leftHand = leftHandSockets.parent;
     }
+
     private void Start()
     {
         inputController.OnEquipPerformed += InputController_OnEquipPerformed;
-        try
-        {
-            player = GetComponent<PlayerController>();
-        }
-        catch (NullReferenceException e)
-        {
-            Debug.LogError($"Player not found: {e.Message}");
-        }
+        player = FindAnyObjectByType<PlayerController>();
+        gameObject.SetActive(false);
     }
 
     private void InputController_OnEquipPerformed(object sender, System.EventArgs e)
@@ -117,17 +111,12 @@ public class InventoryController : MonoBehaviour
         {
             case EItemType.Weapon:
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
-                GameObject weaponObject = Instantiate(itemData.ItemSO.Prefab, rightHand);
+                GameObject weaponObject = Instantiate(itemData.ItemSO.Prefab);
                 Weapon weapon = weaponObject.GetComponent<Weapon>();
-                player.MainHand = weapon;
+                ItemSocketContainer rightHandSocketContainer = rightHandSockets.GetComponent<ItemSocketContainer>();
+                rightHandSocketContainer.EquipItem(weaponObject);
                 mainHandSlot.ItemData = itemData;
                 mainHand = (WeaponData)itemData;
-
-                // Fix this. The local transform should allow for the refactored game object to fit in the character's hand and look good relative to that character/animation. Shouldn't need to hardcode transforms anymore.
-                Vector3 localPosition = new Vector3(0.1294f, 0.0179f, -0.0453f);
-                Quaternion localRotation = Quaternion.Euler(15.177f, -106.1f, 101.719f);
-                weapon.transform.localPosition = localPosition;
-                weapon.transform.localRotation = localRotation;
 
                 RemoveItem(itemData);
                 break;
