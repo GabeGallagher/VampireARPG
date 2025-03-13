@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
         if (inventoryController.MainHand != null) // Need to refactor if punches are allowed
         {
             WeaponData weapon = inventoryController.MainHand;
-            float attackRange = MainHand.WeaponSO.Range + e.Skill.AttackRange;
+            float attackRange = weapon.Range + e.Skill.AttackRange;
 
             if (distanceToEnemy <= attackRange || weapon.WeaponSO.IsRanged)
             {

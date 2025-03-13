@@ -21,4 +21,7 @@ public class WeaponData : ItemData
     }
 
     public WeaponSO WeaponSO => (WeaponSO)ItemSO;
+    public EWeaponType WeaponType => weaponType;
+    public bool IsTwoHanded => isTwoHanded;
+    public int Range => range;
 }
