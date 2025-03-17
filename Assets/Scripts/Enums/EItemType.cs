@@ -13,4 +13,5 @@ public enum EItemType
     Ring,
     Amulet,
     Belt,
+    Harvestable,
 }

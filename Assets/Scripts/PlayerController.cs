@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
         attackController.Attacker = transform;
         attackController.Skill = skillInUse;
-        attackController.Radius = skillInUse.AttackRange + MainHand.WeaponSO.Range;
+        attackController.Radius = skillInUse.AttackRange + InventoryController.MainHand.Range;
         attackController.Origin = MainHand.DamageOrigin;
 
         attackController.Start();
@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour, IDealDamage, IDamageable
 
     public void HarvestResource(int resourceCount, HarvestableSO harvestableSO)
     {
-        inventoryController.AddHarvestable(harvestableSO);
+        inventoryController.AddHarvestable(resourceCount, harvestableSO);
     }
 
     public void DamageReceived(int damageReceived, GameObject damageFrom)

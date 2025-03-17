@@ -17,13 +17,14 @@ public class Item : MonoBehaviour
     [SerializeField] private ItemSO itemSO;
 
     private ItemData itemData;
-
+    private int[,] stashLocation; // [row, column]
     public ItemSO ItemSO => itemSO;
     public ItemData ItemData => itemData;
 
     private void Awake()
     {
         itemData = SetData();
+        stashLocation = new int[4, 10];
     }
 
     protected virtual ItemData SetData()

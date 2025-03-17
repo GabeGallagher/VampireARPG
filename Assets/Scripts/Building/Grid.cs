@@ -12,7 +12,6 @@ public class Grid<TGridObject>
     public bool showDebug;
 
     private Vector3 originPosition;
-    private Vector3 floorPosition;
     private Color color;
     private int width;
     private int height;

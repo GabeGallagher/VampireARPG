@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class ItemSocketContainer : MonoBehaviour
         {
             if (itemData.ItemType == EItemType.Weapon)
             {
+                Weapon weapon = item.GetComponent<Weapon>();
                 WeaponSO weaponSO = (WeaponSO)itemData.ItemSO;
                 Transform weaponSocket = GetComponentsInChildren<ItemSocket>()
                     .FirstOrDefault(socket => socket.WeaponType == weaponSO.WeaponType)?
@@ -25,8 +27,22 @@ public class ItemSocketContainer : MonoBehaviour
                 {
                     Debug.LogError($"No socket found for weapon type {weaponSO.WeaponType}"); return;
                 }
-                item.transform.SetParent( weaponSocket );
-                item.GetComponent<Item>().ResetTransform();
+                weapon.transform.SetParent( weaponSocket );
+                weapon.GetComponent<Item>().ResetTransform();
+
+                /*This is a super dirty way to expose the origin point of of a
+                melee weapon attack to the player controller. Needs refactor
+                for my own sanity but it's the best way to implement given the
+                current codebase :( */
+                try
+                {
+                    PlayerController player = FindAnyObjectByType<PlayerController>();
+                    player.MainHand = weapon;
+                }
+                catch (NullReferenceException ex)
+                {
+                    Debug.LogError("Player not found: " + ex.Message);
+                }
             }
         }
     }

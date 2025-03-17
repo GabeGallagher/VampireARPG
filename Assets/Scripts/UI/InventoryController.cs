@@ -18,7 +18,7 @@ public class InventoryController : MonoBehaviour
     private PlayerController player;
     private Transform rightHand, leftHand;
 
-    public WeaponData MainHand { get => mainHand; }
+    public WeaponData MainHand => mainHand;
 
     private void Awake()
     {
@@ -45,15 +45,14 @@ public class InventoryController : MonoBehaviour
         UpdateStash();
     }
 
-    public void AddHarvestable(HarvestableSO harvestableSO)
+    public void AddHarvestable(int count, HarvestableSO harvestableSO)
     {
-
+        Debug.Log("Implement AddHarvestable");
     }
 
     public void RemoveItem(ItemData itemData)
     {
         itemsList.Remove(itemData);
-
         UpdateStash();
     }
 
@@ -113,7 +112,8 @@ public class InventoryController : MonoBehaviour
                 ItemSlot mainHandSlot = equipped.Find("MainHand").GetComponent<ItemSlot>();
                 GameObject weaponObject = Instantiate(itemData.ItemSO.Prefab);
                 Weapon weapon = weaponObject.GetComponent<Weapon>();
-                ItemSocketContainer rightHandSocketContainer = rightHandSockets.GetComponent<ItemSocketContainer>();
+                ItemSocketContainer rightHandSocketContainer = 
+                    rightHandSockets.GetComponent<ItemSocketContainer>();
                 rightHandSocketContainer.EquipItem(weaponObject);
                 mainHandSlot.ItemData = itemData;
                 mainHand = (WeaponData)itemData;
