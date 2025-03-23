@@ -8,15 +8,19 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
+    [SerializeField] private ItemStash itemStashObject;
     [SerializeField] private Transform itemStash, equipped, rightHandSockets, leftHandSockets;
     [SerializeField] private InputController inputController;
 
     private List<ItemData> itemsList = new List<ItemData>();
+    private Item[,] itemArray;
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
     private WeaponData mainHand;
     private PlayerController player;
     private Transform rightHand, leftHand;
+    private int stashColumns = 10;
+    private int stashRows = 4;
 
     public WeaponData MainHand => mainHand;
 
@@ -25,6 +29,7 @@ public class InventoryController : MonoBehaviour
         graphicRaycaster = GetComponentInParent<Canvas>().GetComponent<GraphicRaycaster>();
         rightHand = rightHandSockets.parent;
         leftHand = leftHandSockets.parent;
+        itemArray = new Item[stashRows, stashColumns];
     }
 
     private void Start()
@@ -43,6 +48,25 @@ public class InventoryController : MonoBehaviour
     {
         itemsList.Add(item.ItemData);
         UpdateStash();
+    }
+
+    /* Refactor method. This will eventually replace the AddItem method when its tested and complete*/
+    public void AddToStash(Item item)
+    {
+        for (int i = 0; i < itemStashObject.stashRowList.Count; i++)
+        {
+            for (int j = 0; j < itemStashObject.stashRowList[i].transform.childCount; j++)
+            {
+                ItemSlot itemSlot = itemStashObject.stashRowList[i].transform.GetChild(j).GetComponent<ItemSlot>();
+                if (!itemSlot.IsOccupied)
+                {
+                    itemSlot.IsOccupied = true;
+                    itemSlot.ItemData = item.ItemData;
+                    return;
+                }
+            }
+        }
+        Debug.Log("Inventory is full");
     }
 
     public void AddHarvestable(int count, HarvestableSO harvestableSO)

@@ -11,6 +11,10 @@ public class ItemSlot : MonoBehaviour
     public GameObject InventorySprite { get => inventorySprite;}
     public ItemData ItemData { get => itemData; set => SetItem(value); }
 
+    private bool isOccupied = false;
+
+    public bool IsOccupied { get => isOccupied; set => isOccupied = value; }
+
     private void SetItem(ItemData itemData)
     {
         this.itemData = itemData;
