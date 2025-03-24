@@ -51,7 +51,7 @@ public class InventoryController : MonoBehaviour
     }
 
     /* Refactor method. This will eventually replace the AddItem method when its tested and complete*/
-    public void AddToStash(Item item)
+    public void AddToStash(ItemData itemData)
     {
         for (int i = 0; i < itemStashObject.stashRowList.Count; i++)
         {
@@ -61,7 +61,7 @@ public class InventoryController : MonoBehaviour
                 if (!itemSlot.IsOccupied)
                 {
                     itemSlot.IsOccupied = true;
-                    itemSlot.ItemData = item.ItemData;
+                    itemSlot.ItemData = itemData;
                     return;
                 }
             }
@@ -69,9 +69,56 @@ public class InventoryController : MonoBehaviour
         Debug.Log("Inventory is full");
     }
 
+    public void AddItemToStash(Item item)
+    {
+        AddToStash(item.ItemData);
+    }
+
     public void AddHarvestable(int count, HarvestableSO harvestableSO)
     {
         Debug.Log("Implement AddHarvestable");
+        HarvestableData harvestableData = (HarvestableData)FindHarvestable(harvestableSO);
+        if (harvestableData == null)
+        {
+            harvestableData = new HarvestableData(harvestableSO, count);
+            AddToStash(harvestableData);
+        }
+        else
+        {
+            harvestableData.Quantity += count;
+        }
+    }
+
+    private ItemData FindHarvestable(HarvestableSO harvestableSO)
+    {
+        for (int i = 0; i < itemStashObject.stashRowList.Count; i++)
+        {
+            for (int j = 0; j < itemStashObject.stashRowList[i].transform.childCount; j++)
+            {
+                ItemSlot itemSlot = itemStashObject.stashRowList[i].transform.GetChild(j).GetComponent<ItemSlot>();
+                if (itemSlot.IsOccupied && itemSlot.ItemData.ItemSO == harvestableSO)
+                {
+                    return itemSlot.ItemData;
+                }
+            }
+        }
+        return null;
+    }
+
+    private int[] GetFirstEmptySlot()
+    {
+        int[] emptySlot = new[] { -1, -1 };
+        
+        for (int i = 0; i < itemStashObject.stashRowList.Count; i++)
+        {
+            for (int j = 0; j < itemStashObject.stashRowList[i].transform.childCount; j++)
+            {
+                ItemSlot itemSlot = itemStashObject.stashRowList[i].transform.GetChild(j).GetComponent<ItemSlot>();
+                if (!itemSlot.IsOccupied) return new[] { i, j };
+            }
+        }
+        Debug.Log("Iventory is full");
+        return emptySlot;
     }
 
     public void RemoveItem(ItemData itemData)

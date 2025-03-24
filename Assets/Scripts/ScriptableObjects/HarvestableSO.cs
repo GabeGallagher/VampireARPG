@@ -5,13 +5,7 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class HarvestableSO : ItemSO
 {
-    public enum EHarvestableType
-    {
-        Wood,
-        Copper,
-    }
-
     [SerializeField] private EHarvestableType harvestableType;
-
+    [SerializeField] private HarvestedItem harvestedItem;
     public EHarvestableType HarvestableType => harvestableType;
 }
